@@ -4,7 +4,7 @@
 
 - [1.1. Creación de un proyecto de circuito impreso.]()
 - [1.1.1. Diseño de circuitos esquemáticos.]()
-- [1.1.2. Diseño de circuitos impresos.] )
+- [1.1.2. Diseño de circuitos impresos.]()
 - [1.1.3. Ejercicios de diseño en clase.]()
 - [1.2. Manufactura de circuitos impresos.]()
 - [1.3. Definición del proyecto de aula.]()
@@ -26,7 +26,9 @@ Cuando se lleva a cabo el diseño y la construcción de PCB, resulta fundamental
 
 Las normas que estandarizan el diseño, fabricación, montaje y mantenimiento de circuitos impresos están mantedidas por la Asociación IPC (*Institute of Printed Circuits*), la cual está acreditada por la *American National Standards Institute* (ANSI). En este curso, se prestará espcial atención a la norma IPC-2221, la cual define y establece los requisitos mínimos del diseño de PCB para garantizar la fabricación y montaje adecuado.
 
-<img src="Unidad_1/0_proceso_general_de_diseño.png" width="400"/>
+A continuación, se presenta el 
+
+<img src="Unidad_1/imagenes/0_proceso_general_de_diseño.png" width="400"/>
 
 
 ## 1.1. Creación de un proyecto de circuito impreso
