@@ -28,7 +28,7 @@ Las normas que estandarizan el diseño, fabricación, montaje y mantenimiento de
 
 A continuación, se presenta el 
 
-<img src="Unidad_1/imagenes/0_proceso_general_de_diseno.png" width="400"/>
+<img src="Unidad_1/imagenes/0_proceso_general_de_diseno.png" width="400">
 
 
 ## 1.1. Creación de un proyecto de circuito impreso
