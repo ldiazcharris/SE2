@@ -58,7 +58,7 @@ Los niveles de producibilidad se entiende como un método para informar el grado
 
 A continuación, se presenta el procedimiento general de diseño. Este es un procedimiento general con el cual es posible obtener un resultado mínimo viable de circuito impreso. Este procedimiento puede incluir más pasos dependiendo del grado de complejidad y la clase de producto que se desea crear. 
 
-<img src="imagenes/0_proceso_general_de_diseno.png" width="600">
+<img src="imagenes/0_proceso_general_de_diseno.png" width="700">
 
 ## Herramienta EDA
 
@@ -75,27 +75,27 @@ Para crear un proyecto en EasyEDA se deben seguir los siguientes pasos:
 
 2. Se puede elegir entre trabajar online o descargar la aplicación de escritorio. 
 
-	<img src="imagenes/1_1_inicio_easyeda.png" width="500">
+	<img src="imagenes/1_1_inicio_easyeda.png" width="700">
 	
 3. Ir a la pestaña ***"Archivo"*** seleccionar ***"Nuevo"*** y a continuación, seleccionar ***"Proyecto"***.
 	
-	<img src="imagenes/1_1_nuevo_proyecto_easyeda_1.png" width="500">
+	<img src="imagenes/1_1_nuevo_proyecto_easyeda_1.png" width="700">
 
 4. Se abrirá una nueva ventana donde debe indicar el nombre del proyecto y una descripción. Se recomienda dar un título suficientemente diciente y aportar una descripción técnica del circuito. Al finalizar, dar clic en ***"Guardar"***.
 
-	<img src="imagenes/1_1_nuevo_proyecto_easyeda_2.png" width="500">
+	<img src="imagenes/1_1_nuevo_proyecto_easyeda_2.png" width="700">
 
 5. Al crear el proyecto, se abrirá la siguiente vista, la cual se distribuye como así:
 	
-	1. Gestor de proyectos, librerías y servicios.
-	2. Ventana de trabajo. 
-	3. Barra de herramientas. 
-	4. Herramientas de cableado. 
-	5. Herramientas de dibujo. 
-	6. Panel de propiedades.
-	7. Hoja de esquemático. 
+	1. 1) Gestor de proyectos, librerías y servicios.
+	2. 2) Ventana de trabajo. 
+	3. 3) Barra de herramientas. 
+	4. 4) Herramientas de cableado. 
+	5. 5) Herramientas de dibujo. 
+	6. 6) Panel de propiedades.
+	7. 7) Hoja de esquemático. 
 	
-	<img src="imagenes/1_1_nuevo_proyecto_easyeda_3.png" width="500">
+	<img src="imagenes/1_1_nuevo_proyecto_easyeda_3.png" width="700">
 
 
 ### *1.1.1. Diseño de circuitos esquemáticos*
@@ -149,15 +149,20 @@ Luego de lo anterior, ahí sí se puede empezar a dibujar el circuito impreso.
 
 3. **Definir bloques funcionales**. La demarcación de subcircuitos tiene como objetivo lograr una interpretación bien clara del sistema.
 
-<img src="imagenes/1_1_ejemplo_Bloques_funcionales.jpg" width="500">
+<img src="imagenes/1_1_ejemplo_Bloques_funcionales.jpg" width="700">
+
+[*Fuente*](https://static5.arrow.com/pdfs/2014/4/28/1/39/50/371/cyp_/manual/cy8ckit-040_fig.1_4.jpg)
+
 
 4. **Flujo de lectura**. No siempre es fácil cumplir esto.
 
 - Se intentan tener un flujo de izquierda a derecha. 
 
-	<img src="imagenes/1_1_flujo_de_lectura.jpg" width="500">
+	<img src="imagenes/1_1_flujo_de_lectura.png" width="500">
+	
+	[*Fuente*](http://www.learningaboutelectronics.com/images/Summing-amplifier-circuit.png)
 
-	<img src="imagenes/1_1_flujo_de_lectura_2.jpg" width="500">
+	<img src="imagenes/1_1_flujo_de_lectura_2.png" width="500">
 
 - Tensión superior arriba, tensión neutra en el centro y tensión inferior abajo.
 
@@ -186,8 +191,8 @@ Esta es quizá la labor más intuitiva de todo el proceso, y consiste en interco
 
 **Ejemplo:**
 
-	<img src="imagenes/1_1_conexiones_4.png" width="500">
-	[Autor: Mg. Ing. Diego Brengi. Imagen tomada del Curso del curso de Diseño de Circuitos Impresos de la Carrera de Especialización en Sistemas Embebidos. Facultad de Ingeniería Universidad de Buenos Aires.].
+<img src="imagenes/1_1_conexiones_4.png" width="500">
+[Autor: Mg. Ing. Diego Brengi. Imagen tomada del Curso del curso de Diseño de Circuitos Impresos de la Carrera de Especialización en Sistemas Embebidos. Facultad de Ingeniería Universidad de Buenos Aires.].
 
 
 
