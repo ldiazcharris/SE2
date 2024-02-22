@@ -195,11 +195,43 @@ Esta es quizá la labor más intuitiva de todo el proceso, y consiste en interco
 [Autor: Mg. Ing. Diego Brengi. Imagen tomada del Curso del curso de Diseño de Circuitos Impresos de la Carrera de Especialización en Sistemas Embebidos. Facultad de Ingeniería Universidad de Buenos Aires.].
 
 
+#### *1.1.1.4. Asociación de Footprints*
+
+Un *"footprint"* o huella es básicamente la disposición física y las dimensiones de los pads (patrones) de soldadura y los agujeros de montaje para un componente específico en una PCB. Estas asociaciones de footprints son críticas para asegurar que los componentes se ajusten correctamente y se puedan soldar correctamente en la PCB durante el proceso de fabricación.
+
+Para asegurar que el diseño físico de la PCB sea el adecuado, es necesario que en la sección del esquemático se seleccionen y asignen los patrones de montaje superficial SMD o y/o los orificios pasantes (TH) adecuados para los componentes electrónicos en la PCB.
+
+Los footprints deben coincidir exactamente con las especificaciones de los componentes que se van a montar en la PCB. Esto implica tener en cuenta el tamaño, la forma y la disposición de los pads de soldadura, así como la ubicación y el tamaño de los agujeros de montaje si se trata de componentes de montaje en superficie o de agujeros pasantes.
+
+Debido a lo anterior, se requiere del conocimiento de las hojas de datos (datasheets) de cada componente, en los cuales se encuentra información de las características mecánicas de los componentes electrónicos. 
+
+<img src="imagenes/1_1_ejemplo_datasheet_info_mecanica.png" width="500">
+
+EasyEda Facilita la tarea de la asignación de footprints, a continuación, se presenta una metodología para realizar esta tarea:
 
 
-	
+1. **Crear o abrir un proyecto:** Inicia sesión en tu cuenta de EasyEDA y crea un nuevo proyecto o abre uno existente en el que estés trabajando en el diseño de tu PCB.
+
+2. **Agregar componentes:** Utiliza la biblioteca de componentes de EasyEDA para buscar y agregar los componentes que deseas utilizar en tu diseño de PCB. Puedes encontrar los componentes buscando por su nombre o su número de parte.
+
+3. **Asignar footprints:** Una vez que hayas agregado un componente a tu diseño, haz clic derecho sobre él y selecciona "Propiedades...". Esto abrirá una ventana donde puedes editar las propiedades del componente, incluyendo su footprint. Deberás hacer *"scroll"* hasta la sección **"Atributos personalizados"** en la opción **"Huella"**.
+
+	<img src="imagenes/1_1_footprint_1.png" width="500">
+	<img src="imagenes/1_1_footprint_2.png" width="500">
+
+4. **Seleccionar un footprint:** Con solo hacer clic izquierdo sobre el campo de **"Huella"**, se abrirá la ventana de edición del componente. En la parte superior derecha busca la sección de "Search Footprint" (depende de la versión de EasyEDA que estés utilizando). Aquí puedes buscar y  seleccionar el footprint adecuado para el componente que has agregado. Puedes buscar footprints específicos o navegar a través de las categorías disponibles.
+
+	<img src="imagenes/1_1_footprint_3.png" width="500">
+
+5. **Guardar los cambios:** Una vez que hayas seleccionado el footprint adecuado para el componente, guarda los cambios haciendo clic en "Actualizar Huella" en la ventana de edición del componente.
+
+6. **Repetir el proceso:** Repite este proceso para cada uno de los componentes que has agregado a tu diseño de PCB, asegurándote de asignar el footprint correcto a cada uno.
 
 ### *1.1.2. Diseño de circuitos impresos*
+
+#### Diseño de la PCB
+
+
 
 
 ### *1.1.3. Ejercicios de diseño en clase*
@@ -234,20 +266,4 @@ Esta es quizá la labor más intuitiva de todo el proceso, y consiste en interco
 
 # Referencias
 
-- [1] René Beuchat, Florian Depraz, Andrea Guerrieri, Sahand Kashani. *Fundamentals of System-on-Chip Design on Arm Cortex-M Microcontrollers*. ARM Educational Media. 2021.
-- [2] TOCCI, RONALD J., NEAL S. WIDMER, GREGORY L. MOSS. *Sistemas digitales. Principios y aplicaciones*. Décima edición. Pearson Educación, México, 2007. ISBN: 978-970-26-0970-4. 
-- [3] Jorge R. Osio, Walter J. Aróztegui, José A. Rapallini. Sistemas digitales basados en microcontroladores. Facultad de Ingeniería Universidad Nacional de la Plata. EDULP. 
-- [4] Enrique Palacios Municio, Fernando Remiro Domínguez y Lucas J. López Pérez. *Microcontrolador PIC16f84. Desarrollo de Proyectos*. 3ª Edición. Editorial RA-MA. ISBN 978-84-9964-917-2. 2014.
-- [5] ARIEL LUTENBERG, PABLO GOMEZ, ERIC PERNIA. *A Beginner’s Guide to Designing Embedded System Applications on Arm® Cortex®-M Microcontrollers*. ARM Education Media. ISBN: 978-1-911531-42-5 (ePDF)
-- [6] BRIAN W. KERNIGHAN y DENNIS M. RITCHIE. *El lenguaje de programación C*. 2da Edición. Pearson Education. 1991. Prentice-Hall Hispanoamericana. 
-- [7] UGR. https://ccia.ugr.es/~jfv/ed1/c/cdrom/cap2/cap28.htm#ej_c
-- [8] UGR. https://elvex.ugr.es/decsai/c/apuntes/control.pdf
-- [9] UC3M. https://www.it.uc3m.es/pbasanta/asng/course_notes/input_output_printf_es.html
-- [10] UC3. https://www.it.uc3m.es/pbasanta/asng/course_notes/input_output_function_scanf_es.html 
-- [11] UC3M. https://www.it.uc3m.es/pbasanta/asng/course_notes/pointers_es.html
-- [12] UC3M. https://www.it.uc3m.es/pbasanta/asng/course_notes/functions_es.html 
-- [13] UC3M. https://www.it.uc3m.es/pbasanta/asng/course_notes/data_types_es.html
-- [14] https://www.tutorialspoint.com/cprogramming/c_type_casting.htm
-- [15] https://elvex.ugr.es/decsai/c/
-- [16] https://disenowebakus.net/matrices.php
-- [17] https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/get-started-devkitc.html 
+- [1] 
