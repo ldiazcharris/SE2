@@ -242,15 +242,200 @@ EasyEda Facilita la tarea de la asignación de footprints, a continuación, se p
 
 ## 1.3. Definición del proyecto de aula
 
+Para definir el el Proyecto de Aula se tendrán en cuenta los siguientes criterios: 
 
-### *1.3.1. Objetivos y actividades*
+1. **Cantidad de integrantes por grupo:** El grupo de trabajo del semestre.
+
+2. **Temática:** Libre. La única condición es que deben aplicarse soluciones con microcontroladores.
+
+3.	**Modalidades:**
+	1. **Trabajo original.** El grupo de estudiantes plantea una problemática que identificó y propone una solución inédita y original. 
+	
+	2.	**Réplica y mejora.** El grupo de estudiantes busca la solución a una problemática que se plantea, replica dicha solución y le añade mejoras. Para esta modalidad, el estudiante debe presentar en su sustentación y trabajo escrito lo siguiente:
+		1. Fuente y circuito de donde tomó la réplica.
+		1. Código fuente de la referencia donde tomó la réplica. 
+		1. Explica lo que realiza el proyecto de referencia.
+		1. Explica las mejoras implementadas y las modificaciones al prototipo original (hardware y software).
+
+4.	**Prototipo:**
+	Debe presentar una demostración funcional del proyecto, la cual debe incluir:
+		1. PCB implementada y funcional. El diseño debe ser propio. Esto aplica para las dos modalidades antes mencionadas. 
+		1. Componentes mecánicos, hardware y software (web o escritorio) según exija el proyecto elegido. 
+		1. Debe ser completamente funcional y estético.
+		
+5. **Propuesta de proyecto:**
+	
+	Al finalizar el primer corte de notas del semestre. Se debe preparar una sustentación oral sobre el proyecto elegido. En esta sustentación, se deben tratar los siguientes puntos:
+		
+		1. Problema planteado.
+		2. Requerimientos.
+		3. Objetivos (General y específicos).
+		4. Actividades.
+
+5. **Trabajo escrito:**
+	
+	Este es un documento que debe presentarse al finalizar el curso, a más tardar el último día de clases. Este documento debe contener lo siguiente y seguir la [Plantilla de Proyecto de Aula](Unidad_1/archivos/6_Plantilla_Proyecto_de_Aula.docx)
+	
+		1.	Descripción del problema abordado.
+		1.	Descripción de los requerimientos del prototipo.
+		1.	Descripción de la solución planteada: objetivos (general y específicos), breve descripción del prototipo y la arquitectura de la solución. 
+		1.	Metodología: 
+		1.	Descripción e imágenes de los resultados más importantes del proyecto.  Resultados de cada actividad realizada. Eje. Mostrar algoritmos (seudocódigo o diagrama de flujos) mostrar componentes del sistema (diagrama de clases), cada uno con su explicación.
+		1.	Conclusiones.
+
+6. **Sustentación final:**
+	
+	La sustentación final debe realizarse al terminar el curso. A más tardar el último día de clases. Esta debe considerar los siguientes puntos:
+	
+		- El problema abordado.
+		- La solución planteada.
+		- Metodología implementada.
+		- Los resultados más relevantes.
+		- Lecciones aprendidas.
+		
+7. **Ponderación**
+	- Trabajo escrito (20% de la nota total)
+	- Presentación oral y diapositivas. (30% de la nota total)
+	- Prototipo. (50% de la nota total)
+	- Si el grupo no presenta en la fecha prevista debe cargar también un vídeo con la sustentación. Esto afectará la nota final.
+	- Si no tiene circuito implementado en físico se recibirá una simulación, pero el proyecto será calificado con nota máxima de 3.8.
+
+8. **Evaluación**
+
+	- Se tendrán en cuenta las rúbricas de evaluación adjuntas para la calificación de la sustentación oral y el trabajo escrito. A saber:
+	1. Rubrica para calificar Sustentación oral de proyectos y/o presentaciones de temas.
+	2. Rúbrica para evaluar Trabajos Escritos.
+		-	El prototipo se calificará de acuerdo con el nivel de exigencia impuesto por el mejor prototipo (estética, implementación, materiales, etc.). 
 
 
-### *1.3.2. Requerimientos*
+
+### *1.3.1. Requerimientos*
+
+Antes de iniciar el diseño de sistemas embebidos, se deben definir los requerimientos. Estos se refieren a las especificaciones y criterios que deben cumplir tanto el hardware como el software del sistema, para satisfacer las necesidades del proyecto o producto. Estos requerimientos son fundamentales para guiar el proceso de diseño y desarrollo de sistemas embebidos y asegurar que el sistema resultante cumpla con los objetivos deseados.
+
+Los requerimientos pueden incluir una variedad de aspectos, como funcionalidad, rendimiento, confiabilidad, seguridad, consumo de energía, tamaño y costo. Algunos ejemplos de requerimientos comunes en el diseño de sistemas embebidos incluyen:
+
+**Funcionalidad:** Qué funciones debe realizar el sistema, como adquirir datos de sensores, procesar información, controlar actuadores, comunicarse con otros dispositivos, etc.
+
+**Rendimiento:** La velocidad de procesamiento necesaria. La cantidad máxima de datos que se deben procesar o almacenar en un cierto intervalo de tiempo.
+
+**Confiabilidad:** La tolerancia a fallos del sistema. Los tiempos de respuesta ante eventos críticos.
+
+**Seguridad:** Protección contra acceso no autorizado. Prevención de ataques y explotaciones de vulnerabilidades.
+
+**Consumo de energía:** Los requisitos de energía del sistema y las restricciones de duración de la batería en sistemas alimentados por batería.
+
+**Tamaño y costo:** El tamaño físico del sistema. Las limitaciones de costos asociadas con la producción del sistema.
+
+Existen dos categorías principales de requerimientos que guían el diseño y desarrollo de sistemas de software y sistemas embebidos:
+
+**Requerimientos Funcionales:**
+
+Los requerimientos funcionales describen las funciones específicas que el sistema debe realizar y cómo debe comportarse en respuesta a ciertos entradas. Estos requerimientos se centran en lo que el sistema debe hacer para cumplir con los objetivos del usuario o del negocio.
+
+Ejemplos:
+
+- "El sistema debe ser capaz de medir la temperatura ambiente."
+- "El sistema debe enviar una señal de alarma si la temperatura supera cierto umbral."
+- "El sistema debe mostrar los datos de temperatura en un display LCD."
+
+**Requerimientos No Funcionales:**
+
+Los requerimientos no funcionales son atributos del sistema que no están directamente relacionados con las funciones específicas que realiza el sistema, sino más bien con cómo realiza esas funciones. Estos requerimientos se centran en aspectos de calidad, rendimiento, seguridad, usabilidad y otros atributos del sistema.
+
+Ejemplos:
+
+- Rendimiento: "El sistema debe ser capaz de procesar al menos 1000 lecturas de sensores por segundo."
+- Seguridad: "El acceso al sistema debe estar protegido por autenticación de dos factores."
+- Usabilidad: "La interfaz de usuario debe ser intuitiva y fácil de usar, con tiempos de respuesta inferiores a 1 segundo."
+
+### *1.3.2. Objetivos y actividades*
+
+Los objetivos generales y actividades son componentes clave en la planificación y definición de metas en cualquier proyecto, incluidos los proyectos relacionados con sistemas embebidos.
+
+**Objetivo General**
+
+El objetivo general es la meta amplia y de alto nivel que se establecen para guiar el desarrollo general del proyecto. Este objetivo está relacionado con el propósito general del proyecto y las expectativas de resultado. El objetivo general proporciona una visión general y global del proyecto.
+
+Ejemplo: 
+
+*"Desarrollar un sistema embebido para controlar y monitorear el sistema de control de flujo de aire de un sistema de ventilación."*
+
+**Objetivos Específicos:**
+
+Los objetivos específicos son metas detalladas y concretas que se derivan del objetivo general y describen los logros específicos que deben alcanzarse para cumplir con el objetivo general del proyecto. Estos objetivos son más detallados en comparación con el objetivo general.
+
+Ejemplos:
+
+- "Diseñar el sistema embebido para el control de flujo de ventilación basado en microcontroladores."
+- "Implementar el sistema embebido de control de flujo de ventilación en sitio."
+- "Probar y validar el sistema embebido de control de flujo de ventilación implementado."
+
+**Actividades o tareas**
+
+En un proyecto, las actividades son las acciones específicas que se llevan a cabo para alcanzar los objetivos y metas del proyecto. Estas acciones están diseñadas para avanzar hacia la finalización del proyecto y pueden ser tareas individuales o conjuntos de tareas relacionadas que contribuyen al logro de un resultado específico.
+
+Las actividades en un proyecto están comúnmente relacionadas a los objetivos específicos. Es decir, se agrupan según cada objetivo específico. Las actividades deben ser específicas, mensurables, estar acotadas en el tiempo (inicio y un fin claramente definidos), deben definir los recursos, tiempo y esfuerzo requeridos para completarse. Además, las actividades se planifican y organizan en secuencia lógica para garantizar una ejecución eficiente y efectiva del proyecto.
+
+1. Descripción detallada: Cada actividad debe describirse en detalle, incluyendo qué se debe hacer, quién es responsable de hacerlo, cuándo debe completarse y qué recursos se necesitan.
+
+1. Secuencia lógica: Las actividades se organizan en una secuencia lógica que refleja la dependencia entre ellas. Algunas actividades pueden depender del resultado de otras actividades y deben completarse en un orden específico.
+
+1. Duración estimada: Se estima la duración de cada actividad, es decir, cuánto tiempo se necesita para completarla. Esta estimación ayuda a planificar el cronograma del proyecto y asignar recursos de manera efectiva.
+
+1. Asignación de recursos: Cada actividad puede requerir recursos como personas, equipo, materiales o financiamiento. Es importante asignar los recursos adecuados a cada actividad para garantizar su ejecución exitosa.
+
+1. Control y seguimiento: Se establecen criterios de control y seguimiento para cada actividad, lo que permite monitorear su progreso, identificar posibles desviaciones del plan y tomar medidas correctivas si es necesario.
+
+**Ejemplo:** 
+
+**Diseñar el sistema embebido para el control de flujo de ventilación basado en microcontroladores:**
+
+	- Investigación de requisitos de diseño: Estudiar y comprender los requisitos específicos del sistema de control de flujo de ventilación, incluyendo la capacidad de ventilación necesaria, los sensores y actuadores requeridos, y los límites de funcionamiento del sistema.
+	
+	- Selección de componentes: Identificar y seleccionar los microcontroladores, sensores, actuadores y otros componentes necesarios para el diseño del sistema embebido.
+	
+	- Diseño de hardware: Diseñar el esquemático del circuito y el diseño de PCB (Printed Circuit Board) que integre todos los componentes necesarios para el control de flujo de ventilación.
+	
+	- Desarrollo de firmware: Escribir el código de firmware para el microcontrolador que controlará el funcionamiento del sistema de ventilación, incluyendo la lógica de control, la interfaz de usuario y la gestión de comunicaciones.
+	
+	- Simulación y pruebas preliminares: Realizar simulaciones y pruebas preliminares para verificar el diseño del sistema embebido y garantizar su viabilidad antes de la implementación.
+
+**Implementar el sistema embebido de control de flujo de ventilación en sitio:**
+
+	- Construcción de prototipo: Construir un prototipo del sistema embebido de control de flujo de ventilación utilizando los componentes y el firmware desarrollados en la fase de diseño.
+
+	- Instalación en sitio: Instalar el prototipo del sistema embebido en el sitio donde se va a utilizar el sistema de control de flujo de ventilación, asegurándose de seguir todas las normativas y regulaciones pertinentes.
+
+	- Integración con el sistema existente: Integrar el sistema embebido de control de flujo de ventilación con el sistema de ventilación existente, si lo hubiera, asegurando una comunicación efectiva y una operación coordinada entre los sistemas.
+
+
+**Probar y validar el sistema embebido de control de flujo de ventilación implementado:**
+
+- Pruebas de funcionamiento: Realizar pruebas exhaustivas para verificar que el sistema embebido de control de flujo de ventilación funcione según lo esperado en condiciones normales de operación.
+
+- Pruebas de estrés: Realizar pruebas de estrés para evaluar la capacidad del sistema embebido de control de flujo de ventilación para manejar cargas de trabajo pesadas y situaciones adversas.
+
+- Validación en campo: Validar el rendimiento del sistema embebido de control de flujo de ventilación en el entorno de uso real, asegurando que cumpla con los requisitos de rendimiento y funcionalidad establecidos.
+
+- Optimización y ajuste: Realizar ajustes y optimizaciones en el sistema embebido según sea necesario en función de los resultados de las pruebas y la retroalimentación del usuario final.
 
 
 ### *1.3.3. Definición de la arquitectura*
 
+La arquitectura de un sistema embebido se refiere a la estructura general y al diseño de alto nivel del sistema, incluyendo sus componentes, módulos, interfaces y relaciones entre ellos. Define cómo los diferentes elementos del sistema interactúan entre sí para cumplir con los requisitos del proyecto y lograr los objetivos establecidos.
+
+Definir la arquitectura de un sistema embebido antes de su construcción es fundamental por varias razones:
+
+Claridad y comprensión: La arquitectura proporciona una visión general clara de cómo se estructura y funciona el sistema embebido. Esto ayuda a los desarrolladores, diseñadores y partes interesadas a comprender la naturaleza del sistema y los roles de sus componentes.
+
+División del trabajo: La arquitectura divide el sistema en componentes más pequeños y manejables, lo que facilita la asignación de tareas y responsabilidades a los equipos de desarrollo. Esto permite una mejor gestión del proyecto y una distribución eficiente de los recursos humanos y materiales.
+
+Identificación de requisitos: Definir la arquitectura ayuda a identificar los requisitos funcionales y no funcionales del sistema. Esto permite establecer criterios claros para el diseño y la implementación de cada componente del sistema, así como para la validación y verificación del sistema completo.
+
+Flexibilidad y escalabilidad: Una arquitectura bien definida proporciona una base sólida para la expansión y la evolución futura del sistema embebido. Permite agregar nuevas funcionalidades, modificar componentes existentes o adaptar el sistema para satisfacer nuevos requisitos sin necesidad de rediseñar todo el sistema desde cero.
+
+Rendimiento y optimización: La arquitectura puede influir en el rendimiento y la eficiencia del sistema. Una arquitectura bien diseñada puede minimizar la sobrecarga y el consumo de recursos, optimizar el uso de la memoria y mejorar la velocidad de procesamiento del sistema.
 
 ### *1.3.4. Diseño del circuito impreso del proyecto de aula*
 
