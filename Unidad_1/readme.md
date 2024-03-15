@@ -277,24 +277,25 @@ Para definir el el Proyecto de Aula se tendrán en cuenta los siguientes criteri
 	
 	Este es un documento que debe presentarse al finalizar el curso, a más tardar el último día de clases. Este documento debe contener lo siguiente y seguir la [Plantilla de Proyecto de Aula](Unidad_1/archivos/6_Plantilla_Proyecto_de_Aula.docx)
 	
-		1.	Descripción del problema abordado.
-		1.	Descripción de los requerimientos del prototipo.
-		1.	Descripción de la solución planteada: objetivos (general y específicos), breve descripción del prototipo y la arquitectura de la solución. 
-		1.	Metodología: 
-		1.	Descripción e imágenes de los resultados más importantes del proyecto.  Resultados de cada actividad realizada. Eje. Mostrar algoritmos (seudocódigo o diagrama de flujos) mostrar componentes del sistema (diagrama de clases), cada uno con su explicación.
-		1.	Conclusiones.
+	1.	Descripción del problema abordado.
+	1.	Descripción de los requerimientos del prototipo.
+	1.	Descripción de la solución planteada: objetivos (general y específicos), breve descripción del prototipo y la arquitectura de la solución. 
+	1.	Metodología: 
+	1.	Descripción e imágenes de los resultados más importantes del proyecto.  Resultados de cada actividad realizada. Eje. Mostrar algoritmos (seudocódigo o diagrama de flujos) mostrar componentes del sistema (diagrama de clases), cada uno con su explicación.
+	1.	Conclusiones.
 
 6. **Sustentación final:**
 	
 	La sustentación final debe realizarse al terminar el curso. A más tardar el último día de clases. Esta debe considerar los siguientes puntos:
 	
-		- El problema abordado.
-		- La solución planteada.
-		- Metodología implementada.
-		- Los resultados más relevantes.
-		- Lecciones aprendidas.
+	- El problema abordado.
+	- La solución planteada.
+	- Metodología implementada.
+	- Los resultados más relevantes.
+	- Lecciones aprendidas.
 		
 7. **Ponderación**
+	
 	- Trabajo escrito (20% de la nota total)
 	- Presentación oral y diapositivas. (30% de la nota total)
 	- Prototipo. (50% de la nota total)
