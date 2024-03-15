@@ -391,23 +391,23 @@ Las actividades en un proyecto están comúnmente relacionadas a los objetivos e
 
 **Diseñar el sistema embebido para el control de flujo de ventilación basado en microcontroladores:**
 
-	- Investigación de requisitos de diseño: Estudiar y comprender los requisitos específicos del sistema de control de flujo de ventilación, incluyendo la capacidad de ventilación necesaria, los sensores y actuadores requeridos, y los límites de funcionamiento del sistema.
+- Investigación de requisitos de diseño: Estudiar y comprender los requisitos específicos del sistema de control de flujo de ventilación, incluyendo la capacidad de ventilación necesaria, los sensores y actuadores requeridos, y los límites de funcionamiento del sistema.
 	
-	- Selección de componentes: Identificar y seleccionar los microcontroladores, sensores, actuadores y otros componentes necesarios para el diseño del sistema embebido.
+- Selección de componentes: Identificar y seleccionar los microcontroladores, sensores, actuadores y otros componentes necesarios para el diseño del sistema embebido.
 	
-	- Diseño de hardware: Diseñar el esquemático del circuito y el diseño de PCB (Printed Circuit Board) que integre todos los componentes necesarios para el control de flujo de ventilación.
+- Diseño de hardware: Diseñar el esquemático del circuito y el diseño de PCB (Printed Circuit Board) que integre todos los componentes necesarios para el control de flujo de ventilación.
 	
-	- Desarrollo de firmware: Escribir el código de firmware para el microcontrolador que controlará el funcionamiento del sistema de ventilación, incluyendo la lógica de control, la interfaz de usuario y la gestión de comunicaciones.
+- Desarrollo de firmware: Escribir el código de firmware para el microcontrolador que controlará el funcionamiento del sistema de ventilación, incluyendo la lógica de control, la interfaz de usuario y la gestión de comunicaciones.
 	
-	- Simulación y pruebas preliminares: Realizar simulaciones y pruebas preliminares para verificar el diseño del sistema embebido y garantizar su viabilidad antes de la implementación.
+- Simulación y pruebas preliminares: Realizar simulaciones y pruebas preliminares para verificar el diseño del sistema embebido y garantizar su viabilidad antes de la implementación.
 
 **Implementar el sistema embebido de control de flujo de ventilación en sitio:**
 
-	- Construcción de prototipo: Construir un prototipo del sistema embebido de control de flujo de ventilación utilizando los componentes y el firmware desarrollados en la fase de diseño.
+- Construcción de prototipo: Construir un prototipo del sistema embebido de control de flujo de ventilación utilizando los componentes y el firmware desarrollados en la fase de diseño.
 
-	- Instalación en sitio: Instalar el prototipo del sistema embebido en el sitio donde se va a utilizar el sistema de control de flujo de ventilación, asegurándose de seguir todas las normativas y regulaciones pertinentes.
+- Instalación en sitio: Instalar el prototipo del sistema embebido en el sitio donde se va a utilizar el sistema de control de flujo de ventilación, asegurándose de seguir todas las normativas y regulaciones pertinentes.
 
-	- Integración con el sistema existente: Integrar el sistema embebido de control de flujo de ventilación con el sistema de ventilación existente, si lo hubiera, asegurando una comunicación efectiva y una operación coordinada entre los sistemas.
+- Integración con el sistema existente: Integrar el sistema embebido de control de flujo de ventilación con el sistema de ventilación existente, si lo hubiera, asegurando una comunicación efectiva y una operación coordinada entre los sistemas.
 
 
 **Probar y validar el sistema embebido de control de flujo de ventilación implementado:**
