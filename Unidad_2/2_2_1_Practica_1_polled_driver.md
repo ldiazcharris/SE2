@@ -165,15 +165,15 @@ Este driver debe ser capaz de abstraer los siguientes requerimientos:
 
 	considere los siguientes datos técnicos del sensor LM35:
 
-		- Según el [*datasheet* del sensor LM35](https://www.ti.com/lit/ds/symlink/lm35.pdf), su salida es lineal a razón de 10 mV/°C, que el rango de lectura es de -55 °C hasta 150 °C. Además de su pinout.
+	- Según el [*datasheet* del sensor LM35](https://www.ti.com/lit/ds/symlink/lm35.pdf), su salida es lineal a razón de 10 mV/°C, que el rango de lectura es de -55 °C hasta 150 °C. Además de su pinout.
 
-		- Circuito de referencia para el presente ejercicio.
+	- Circuito de referencia para el presente ejercicio.
 
-			<img src="/Unidad_2/imagenes/2.2_conexion_LM35.png" width=500>
+	<img src="/Unidad_2/imagenes/2.2_conexion_LM35.png" width=500>
 
-			Este corresponde a la conexión básica descrita en el Tenga en cuenta que según el [*datasheet* del sensor LM35](https://www.ti.com/lit/ds/symlink/lm35.pdf) (ver página 1), cuyo rango de medición de temperatura será de 2 °C a 150 °C, como se muestra a continuación:
+	Este corresponde a la conexión básica descrita en el Tenga en cuenta que según el [*datasheet* del sensor LM35](https://www.ti.com/lit/ds/symlink/lm35.pdf) (ver página 1), cuyo rango de medición de temperatura será de 2 °C a 150 °C, como se muestra a continuación:
 
-			<img src="/Unidad_2/imagenes/2.2_LM35_conexion_basica.png" width=500>
+	<img src="/Unidad_2/imagenes/2.2_LM35_conexion_basica.png" width=500>
 
 
 **Prueba del driver**
