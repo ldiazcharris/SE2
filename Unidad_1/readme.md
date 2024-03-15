@@ -252,25 +252,26 @@ Para definir el el Proyecto de Aula se tendrán en cuenta los siguientes criteri
 	1. **Trabajo original.** El grupo de estudiantes plantea una problemática que identificó y propone una solución inédita y original. 
 	
 	2.	**Réplica y mejora.** El grupo de estudiantes busca la solución a una problemática que se plantea, replica dicha solución y le añade mejoras. Para esta modalidad, el estudiante debe presentar en su sustentación y trabajo escrito lo siguiente:
-		1. Fuente y circuito de donde tomó la réplica.
-		1. Código fuente de la referencia donde tomó la réplica. 
-		1. Explica lo que realiza el proyecto de referencia.
-		1. Explica las mejoras implementadas y las modificaciones al prototipo original (hardware y software).
+	
+	- Fuente y circuito de donde tomó la réplica.
+	- Código fuente de la referencia donde tomó la réplica. 
+	- Explica lo que realiza el proyecto de referencia.
+	- Explica las mejoras implementadas y las modificaciones al prototipo original (hardware y software).
 
 4.	**Prototipo:**
 	Debe presentar una demostración funcional del proyecto, la cual debe incluir:
-		1. PCB implementada y funcional. El diseño debe ser propio. Esto aplica para las dos modalidades antes mencionadas. 
-		1. Componentes mecánicos, hardware y software (web o escritorio) según exija el proyecto elegido. 
-		1. Debe ser completamente funcional y estético.
+	1. PCB implementada y funcional. El diseño debe ser propio. Esto aplica para las dos modalidades antes mencionadas. 
+	1. Componentes mecánicos, hardware y software (web o escritorio) según exija el proyecto elegido. 
+	1. Debe ser completamente funcional y estético.
 		
 5. **Propuesta de proyecto:**
 	
 	Al finalizar el primer corte de notas del semestre. Se debe preparar una sustentación oral sobre el proyecto elegido. En esta sustentación, se deben tratar los siguientes puntos:
 		
-		1. Problema planteado.
-		2. Requerimientos.
-		3. Objetivos (General y específicos).
-		4. Actividades.
+	1. Problema planteado.
+	2. Requerimientos.
+	3. Objetivos (General y específicos).
+	4. Actividades.
 
 5. **Trabajo escrito:**
 	
