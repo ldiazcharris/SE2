@@ -35,6 +35,7 @@ Por favor, siga la siguiente metodología.
 1. Inicie el programa VSCode y cree un nuevo proyecto con la herramienta platformIO siguiendo los pasos de la sección [Crear un nuevo proyecto con platformIO](/Unidad_1/0_nuevo_proyecto.md).
 	
 2. Cuando se haya creado el proyecto, despliegue la carpeta `src`, donde está el archivo "main.c" que es el archivo principal del proyecto. En este archivo se escribirá el programa. 
+	
 	2.1. Agregue los siguientes archivos en la carpeta `src` de su proyecto: `utilities.h` y `utilities.c`, que se encuentran en la carpeta: ["bibliotecas/untilities"](/Unidad_2/bibliotecas/utilities).
 		
 3. Escriba el siguiente código dentro del archivo "main.c", cuyo objetivo es: 
@@ -49,166 +50,166 @@ Por favor, siga la siguiente metodología.
 	
 	1. La "Tarea LED_3". Permanece haciendo un *blink* del led 3 y enviando el mensaje "Tarea LED_3" por UART_0. 
 
-	~~~C
+~~~C
 
-/************************INCLUDES*********************************/
+	/************************INCLUDES*********************************/
 
-#include <stdio.h>
-#include <string.h>
-#include "driver/gpio.h"
-#include "driver/uart.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "freertos/queue.h"
-#include "utilities.h"
-
-
-/************************MACROS***********************************/
-
-#define BUF_SIZE 1024
-#define LED_1 2
-#define LED_2 4
-#define LED_3 15
-#define UART0 UART_NUM_0
-#define UART1 UART_NUM_1
-
-/**************DECLARACIÓN DE VARIABLES GLOBALES*******************/
-
-static QueueHandle_t uart0_queue;
-static QueueHandle_t uart1_queue;
-
-/****************DECLARACIÓN DE FUNCIONES*************************/
-
-static void uart_interrupt_task(void *params);
-static void led_task(void *params);
-
-/**********************FUNCIÓN PRINCIPAL**************************/
-
-void app_main()
-{
-    gpio_reset_pin(LED_1);
-    gpio_reset_pin(LED_2);
-    gpio_reset_pin(LED_3);
-    gpio_set_direction(LED_1, GPIO_MODE_OUTPUT);
-    gpio_set_direction(LED_2, GPIO_MODE_OUTPUT);
-    gpio_set_direction(LED_3, GPIO_MODE_OUTPUT);
-
-    uart_init(UART0, 115200, BUF_SIZE * 2, BUF_SIZE * 2, 50, &uart0_queue, ESP_INTR_FLAG_LEVEL1);
-    //          (UART_NUM, TX, RX, RTS, CTS)
-    uart_set_pin(UART0,     1,  3,  22,  19);
-
-    uart_init(UART1, 115200, BUF_SIZE * 2, BUF_SIZE * 2, 50, &uart1_queue, ESP_INTR_FLAG_LEVEL1); //   ESP_INTR_FLAG_IRAM
-    //          (UART_NUM, TX, RX, RTS, CTS)
-    uart_set_pin(UART1,    33, 26,  14,  12);
-
-    xTaskCreate(uart_interrupt_task,
-                "Tarea UART",
-                BUF_SIZE * 4,
-                NULL,
-                12,
-                NULL);
-
-    xTaskCreate(led_task,
-                "Tarea LED_3",
-                BUF_SIZE * 4,
-                NULL,
-                7,
-                NULL);
-}
-
-/****************DEFINICIÓN DE FUNCIONES**************************/
-
-static void uart_interrupt_task(void *params)
-{
-    uart_event_t uart_event;
-    char *uart_recv_data = (char *)malloc(BUF_SIZE);
-    char *response_string = (char *)malloc(BUF_SIZE);
-    uint16_t light_code; 
-    while (1)
-    {
-
-        
-        
-        if (xQueueReceive(uart0_queue, (void *)&uart_event, (TickType_t)portMAX_DELAY))
-        {
-            uart_transmit(UART0, "Tarea UART\n", strlen("Tarea UART\n"));
-            bzero(uart_recv_data, BUF_SIZE); // Puntero para guardar la información recibida
-            bzero(response_string, BUF_SIZE); 
-
-            switch (uart_event.type)
-            {
-            case UART_DATA:
-                uart_receive(UART0, (void *)uart_recv_data, (uint32_t)uart_event.size);
-                uart_transmit(UART0, (const void*)uart_recv_data, (uint32_t)uart_event.size);
-                
-                light_code = (uint16_t)atoi((const char *)uart_recv_data);
-                
-                switch(light_code)
-                {
-                    case 10:
-                        sprintf(response_string, "Light Code: 10\n");
-                        uart_transmit(UART0, response_string, strlen((const char*)response_string));
-                        gpio_set_level(LED_1, 0);
-                        break;
-
-                    case 11:
-                        sprintf(response_string, "Light Code: 11\n");
-                        uart_transmit(UART0, response_string, strlen((const char*)response_string));
-                        gpio_set_level(LED_1, 1);
-                        break;
-                    
-                    case 20:
-                        sprintf(response_string, "Light Code: 20\n");
-                        uart_transmit(UART0, response_string, strlen((const char*)response_string));
-                        gpio_set_level(LED_2, 0);
-                        break;
-
-                    case 21:
-                        sprintf(response_string, "Light Code: 21\n");
-                        uart_transmit(UART0, response_string, strlen((const char*)response_string));
-                        gpio_set_level(LED_2, 1);
-                        break;
-                    default:
-                        sprintf(response_string, "Light Code ERROR\n");
-                        gpio_set_level(LED_2, 0);
-                        gpio_set_level(LED_1, 1);
-                        delay(500);
-                        gpio_set_level(LED_2, 1);
-                        gpio_set_level(LED_1, 0);
-                        delay(500);
-                        gpio_set_level(LED_2, 0);
-                        gpio_set_level(LED_1, 0);
-
-                        uart_transmit(UART0, response_string, strlen((const char*)response_string));
-                }
-
-                //uart_transmit(UART1, response_string, strlen((const char*)response_string));
-                break; 
-
-            default:
-                break;
-            }
-        }
-    }
-
-    free(uart_recv_data);
-    free(response_string);
-}
+	#include <stdio.h>
+	#include <string.h>
+	#include "driver/gpio.h"
+	#include "driver/uart.h"
+	#include "freertos/FreeRTOS.h"
+	#include "freertos/task.h"
+	#include "freertos/queue.h"
+	#include "utilities.h"
 
 
-static void led_task(void *params)
-{
-    while(1){
-        
-        gpio_set_level(LED_3, 0);
-        delay(500);
-        gpio_set_level(LED_3, 1);
-        delay(500);
-        uart_transmit(UART0, "Tarea LED_3\n", strlen("Tarea LED_3\n"));
-        delay(500);
-    }
-    
-}
+	/************************MACROS***********************************/
+
+	#define BUF_SIZE 1024
+	#define LED_1 2
+	#define LED_2 4
+	#define LED_3 15
+	#define UART0 UART_NUM_0
+	#define UART1 UART_NUM_1
+
+	/**************DECLARACIÓN DE VARIABLES GLOBALES*******************/
+
+	static QueueHandle_t uart0_queue;
+	static QueueHandle_t uart1_queue;
+
+	/****************DECLARACIÓN DE FUNCIONES*************************/
+
+	static void uart_interrupt_task(void *params);
+	static void led_task(void *params);
+
+	/**********************FUNCIÓN PRINCIPAL**************************/
+
+	void app_main()
+	{
+		gpio_reset_pin(LED_1);
+		gpio_reset_pin(LED_2);
+		gpio_reset_pin(LED_3);
+		gpio_set_direction(LED_1, GPIO_MODE_OUTPUT);
+		gpio_set_direction(LED_2, GPIO_MODE_OUTPUT);
+		gpio_set_direction(LED_3, GPIO_MODE_OUTPUT);
+
+		uart_init(UART0, 115200, BUF_SIZE * 2, BUF_SIZE * 2, 50, &uart0_queue, ESP_INTR_FLAG_LEVEL1);
+		//          (UART_NUM, TX, RX, RTS, CTS)
+		uart_set_pin(UART0,     1,  3,  22,  19);
+
+		uart_init(UART1, 115200, BUF_SIZE * 2, BUF_SIZE * 2, 50, &uart1_queue, ESP_INTR_FLAG_LEVEL1); //   ESP_INTR_FLAG_IRAM
+		//          (UART_NUM, TX, RX, RTS, CTS)
+		uart_set_pin(UART1,    33, 26,  14,  12);
+
+		xTaskCreate(uart_interrupt_task,
+					"Tarea UART",
+					BUF_SIZE * 4,
+					NULL,
+					12,
+					NULL);
+
+		xTaskCreate(led_task,
+					"Tarea LED_3",
+					BUF_SIZE * 4,
+					NULL,
+					7,
+					NULL);
+	}
+
+	/****************DEFINICIÓN DE FUNCIONES**************************/
+
+	static void uart_interrupt_task(void *params)
+	{
+		uart_event_t uart_event;
+		char *uart_recv_data = (char *)malloc(BUF_SIZE);
+		char *response_string = (char *)malloc(BUF_SIZE);
+		uint16_t light_code; 
+		while (1)
+		{
+
+			
+			
+			if (xQueueReceive(uart0_queue, (void *)&uart_event, (TickType_t)portMAX_DELAY))
+			{
+				uart_transmit(UART0, "Tarea UART\n", strlen("Tarea UART\n"));
+				bzero(uart_recv_data, BUF_SIZE); // Puntero para guardar la información recibida
+				bzero(response_string, BUF_SIZE); 
+
+				switch (uart_event.type)
+				{
+				case UART_DATA:
+					uart_receive(UART0, (void *)uart_recv_data, (uint32_t)uart_event.size);
+					uart_transmit(UART0, (const void*)uart_recv_data, (uint32_t)uart_event.size);
+					
+					light_code = (uint16_t)atoi((const char *)uart_recv_data);
+					
+					switch(light_code)
+					{
+						case 10:
+							sprintf(response_string, "Light Code: 10\n");
+							uart_transmit(UART0, response_string, strlen((const char*)response_string));
+							gpio_set_level(LED_1, 0);
+							break;
+
+						case 11:
+							sprintf(response_string, "Light Code: 11\n");
+							uart_transmit(UART0, response_string, strlen((const char*)response_string));
+							gpio_set_level(LED_1, 1);
+							break;
+						
+						case 20:
+							sprintf(response_string, "Light Code: 20\n");
+							uart_transmit(UART0, response_string, strlen((const char*)response_string));
+							gpio_set_level(LED_2, 0);
+							break;
+
+						case 21:
+							sprintf(response_string, "Light Code: 21\n");
+							uart_transmit(UART0, response_string, strlen((const char*)response_string));
+							gpio_set_level(LED_2, 1);
+							break;
+						default:
+							sprintf(response_string, "Light Code ERROR\n");
+							gpio_set_level(LED_2, 0);
+							gpio_set_level(LED_1, 1);
+							delay(500);
+							gpio_set_level(LED_2, 1);
+							gpio_set_level(LED_1, 0);
+							delay(500);
+							gpio_set_level(LED_2, 0);
+							gpio_set_level(LED_1, 0);
+
+							uart_transmit(UART0, response_string, strlen((const char*)response_string));
+					}
+
+					//uart_transmit(UART1, response_string, strlen((const char*)response_string));
+					break; 
+
+				default:
+					break;
+				}
+			}
+		}
+
+		free(uart_recv_data);
+		free(response_string);
+	}
+
+
+	static void led_task(void *params)
+	{
+		while(1){
+			
+			gpio_set_level(LED_3, 0);
+			delay(500);
+			gpio_set_level(LED_3, 1);
+			delay(500);
+			uart_transmit(UART0, "Tarea LED_3\n", strlen("Tarea LED_3\n"));
+			delay(500);
+		}
+		
+	}
 
 ~~~
 
