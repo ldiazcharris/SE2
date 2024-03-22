@@ -291,6 +291,10 @@ Desarrolle un driver o biblioteca que facilite la portabilidad de código para c
 	
 	En consecuencia, el microcontrolador deberá realizar la acción pertinente sobre los motores. 
 	
+	**Ejemplo:***
+	
+	Suponga que se recibió la trama `S,1,0,1,E`, esto quiere decir, que los motores 1 y 3 estarán encendidos y el motor 2 apagado. 	
+	
 	
 4. **Consideraciones para la interpretación de la trama**
 	
