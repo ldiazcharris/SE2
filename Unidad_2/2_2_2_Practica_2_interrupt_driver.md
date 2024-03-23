@@ -303,6 +303,7 @@ Desarrolle un driver o biblioteca que facilite la portabilidad de código para c
 	1. Debe recibir la trama a través de una cola de freeRTOS.
 	2. Si la trama no contiene los caracteres `S` y `E`, la trama deberá ser descartada. 
 	3. Si los valores de las tramas `motor1_on_off`, `motor2_on_off` y `motor2_on_off` no son numéricos y no están en el rango permitido, la trama debe ser descartada. 
+	4. Si la trama tiene campos incompletos deberá ser descartada.
 
 
 5. **Prueba del driver**
