@@ -128,6 +128,103 @@ Cada una de ellas proporciona ventajas y desventajas en términos de tiempo de d
 
 ## 2.3. Protocolos de comunicación digital (I2C y SPI)
 
+### 2.3.1. Protocolo I2C 
+
+El acrónimo I2C significa *Inter Integrated Circuid*. Este protocolo está diseñado específicamente para llevar a cabo comunicación digital entre circuitos integrados. Este protocolo de comunicación simplifica las conexiones necesarias para interconectar y comunicar varios dispositivos a la vez.
+
+El protocolo I2C fue desarrollado por *Philips Semiconductors* (hoy *NXP Semiconductors*) entre 1980 y 1982. Hoy en día muchos fabricantes de circuitos integrados (como microcontroladores) ofrecen dispositivos que implementan un bus I2C para control o comunicaciones. 
+
+Este protocolo de comunicación tiene la siguientes características:
+
+1. Es Síncrono. 
+2. Permite la comunicación Half-duplex. 
+3. Permite una topología de bus (multipunto). 
+4. Permite una topología multi-maestro.
+5. Un mismo dispositivo puede enviar y recibir datos. 
+6. Establece un mecanismo de adaptación de velocidad. 
+7. La velocidad de transmisión típica es:
+	- Standard: hasta 100 Kbits/s.
+	- Fast: hasta 400 Kbits/s.
+	- High-speed: hasta 3,4 Mbits/s
+8. Cada dispositivo del bus tiene una dirección única.
+	- 7 bits, I2C estándar.
+	- 11 bits, I2C mejorado.
+9. Distancia y número de dispositivos:
+	- Limitado por la capacitancia del bus (inferior a 400pF). Normalmente 2 o 3 metros.
+	- Drivers para largas distancias (centenares de metros).
+10. El protocolo requiere que cada byte de información sea confirmado (ACK) por el destinatario.
+11. Se pueden conectar al bus 128 dispositivos. Sin embargo, para la versión I2C de direccionamiento con 10 bits se pueden direccionar hasta 1024 dispositivos. 
+	
+En este protocolo de comunicación la capa física está compuesta de dos pines principales a saber: SDA (*Serial Data line*) y SCL (*Serial Clock line*).
+
+Además, para que exista compatibilidad eléctrica entre los dispositivos, se debe conectar el pin de GND. Por otro lado, debido a la característica particular de los pines SDA y SCL, tienen la configuración eléctrica de *open drain*, se deben conectar resistores del tipo *pull-up* en las líneas de transmisión. 
+
+Cada dispositivo que se requiera conectar a un bus I2C, debe haces en las líneas de transmisión SDA y SCL. Todos en la misma conexión. 
+
+<img src="imagenes/2_3_1_I2C_Colector_abierto.png" width="500">
+
+El dispositivo maestro en un bus I2C tiene las siguientes capacidades: 
+- Controla la comunicación
+- Genera la señal de reloj del bus (SCL).
+- Inicia y termina la comunicación.
+- Direcciona a los esclavos.
+- Establece el sentido de la comunicación (recepción / transmisión).
+
+
+**Mini Glosario I2C**
+
+- Emisor: Dispositivo que envía datos al bus.
+- Receptor: Dispositivo que recibe datos del bus.
+- Maestro: Dispositivo que inicia una transferencia, genera las señales
+de reloj y termina la transferencia.
+- Esclavo: Dispositivo direccionado por un maestro.
+- SDA: *Serial Data Line* (señal de datos).
+- SCL: *Serial Clock line* (señal de reloj).
+- ACK: *Acknowledgement*, (Recibido o Confirmación).
+- NACK: *Negative Acknowledgement*, (No Recibido o No Confirmación).
+
+### Protocolo de comunicación
+
+**Condiciones básicas para la comunicación**
+
+La transmisión en el protocolo I2C los datos viajan por SDA. Por cada bit de información es necesario un pulso de SCL y los datos sólo pueden cambiar cuando SCL está a nivel bajo.
+
+<img src="imagenes/2_3_1_I2C_Trama.png" width="500">
+
+*Tomada de: [[4]](#referencias)*
+
+En el protocolo I2C, la unidad básica de comunicación es el byte, por lo tanto, las transferencias de información son de 8 bits. Cada vez que se envía un byte, se requiere una respuesta de confirmación (ACK). Este ACK se da de la siguiente mantera: 
+
+El receptor (maestro o esclavo) del mensaje mantiene SDA a nivel bajo durante un tiempo de bit. Si no lo hace, se entenderá como un NACK, (no confirmado).
+
+<img src="imagenes/2_3_1_I2C_Trama_0.png" width="500">
+
+*Tomada de: [[4]](#referencias)*
+
+- **INICIO:** La transmisión la inicia el maestro, con la condición de *Start*, la cual consiste en que existe un Flanco de **bajada** en SDA con SCL a nivel alto. Cuando nadie accede al bus hay un nivel alto en SCL y SDA.
+
+<img src="imagenes/2_3_1_I2C_Trama_1.png" width="500">
+
+*Tomada de: [[4]](#referencias)*
+
+- **FIN:** La transmisión la finaliza el maestro, con la condición de *Stop*, la cual consiste en que existe un Flanco de **subida** en SDA con SCL a nivel alto.
+
+<img src="imagenes/2_3_1_I2C_Trama_2.png" width="500">
+
+*Tomada de: [[4]](#referencias)*
+
+**Direccionamiento en el bus**
+
+Luego de que el maestro de la condición de inicio (*Start*), también debe enviar la siguiente información por el bus:
+- Dirección del esclavo (7 bits)
+- Acción a realizar: Comando de lectura o escritura en el bit R/W. Para lectura el bit será 1 y para escritura el bit será 0. 
+
+<img src="imagenes/2_3_1_I2C_Trama_3.png" width="500">
+
+*Tomada de: [[4]](#referencias)*
+
+
+
 
 ## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi)
 
@@ -144,3 +241,4 @@ Cada una de ellas proporciona ventajas y desventajas en términos de tiempo de d
 - [1] BRIAN W. KERNIGHAN y DENNIS M. RITCHIE. *El lenguaje de programación C*. 2da Edición. Pearson Education. 1991. Prentice-Hall Hispanoamericana. Pág 234.  
 - [2] https://learn.microsoft.com/es-es/cpp/cpp/volatile-cpp?view=msvc-170
 - [3] https://trucosinformaticos.wordpress.com/2018/04/01/para-que-sirve-volatile-en-c/ 
+- [4] http://arantxa.ii.uam.es/~gdrivera/labetcii/docs/I2C_alcala.pdf 
