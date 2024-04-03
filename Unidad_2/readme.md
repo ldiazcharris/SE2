@@ -157,7 +157,7 @@ Este protocolo de comunicación tiene la siguientes características:
 	
 En este protocolo de comunicación la capa física está compuesta de dos pines principales a saber: SDA (*Serial Data line*) y SCL (*Serial Clock line*).
 
-Además, para que exista compatibilidad eléctrica entre los dispositivos, se debe conectar el pin de GND. Por otro lado, debido a la característica particular de los pines SDA y SCL, tienen la configuración eléctrica de *open drain*, se deben conectar resistores del tipo *pull-up* en las líneas de transmisión. 
+Además, para que exista compatibilidad eléctrica entre los dispositivos, se debe conectar el pin de GND. Por otro lado, debido a la característica particular de los pines SDA y SCL, tienen la configuración eléctrica de *open drain* u *open collector*, se deben conectar resistores del tipo *pull-up* en las líneas SDA y SCL. Este resitor puede estar en el rango de entre 2 kΩ hasta 10 kΩ. 
 
 Cada dispositivo que se requiera conectar a un bus I2C, debe haces en las líneas de transmisión SDA y SCL. Todos en la misma conexión. 
 
@@ -242,3 +242,4 @@ Luego de que el maestro de la condición de inicio (*Start*), también debe envi
 - [2] https://learn.microsoft.com/es-es/cpp/cpp/volatile-cpp?view=msvc-170
 - [3] https://trucosinformaticos.wordpress.com/2018/04/01/para-que-sirve-volatile-en-c/ 
 - [4] http://arantxa.ii.uam.es/~gdrivera/labetcii/docs/I2C_alcala.pdf 
+- [5] https://www.ti.com/lit/an/slva704/slva704.pdf?ts=1712031173602&ref_url=https%253A%252F%252Fwww.google.com%252F 
