@@ -2,12 +2,13 @@
 
 ## Índice
 
-- [2.1. Creación de bibliotecas o drivers para sensores.]()
-- [2.2. Práctica de creación de bibliotecas o drivers.]()
-- [2.3. Protocolos de comunicación digital (I2C y SPI).]()
-- [2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi).]()
-- [2.5. Prototipo funcional del proyecto de aula.]()
-- [2.5. Programación de firmware del proyecto de aula.]()
+- [2.1. Creación de bibliotecas o drivers para sensores.](#21-creación-de-bibliotecas-o-drivers-para-sensores)
+- [2.2. Práctica de creación de bibliotecas o drivers.](#22-práctica-de-creación-de-bibliotecas-o-drivers)
+- [2.3. Protocolos de comunicación digital (I2C y SPI).](#23-protocolos-de-comunicación-digital-i2c-y-spi)
+	- [2.3.1. Protocolo I^2C](#231-protocolo-i2c)
+- [2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi).](#24-protocolos-de-comunicación-inalámbrica-bluetooth-y-wifi)
+- [2.5. Programación de firmware del proyecto de aula.](#25-prototipo-funcional-del-proyecto-de-aula)
+- [2.6. Programación de firmware del proyecto de aula.](#26-programación-de-firmware-del-proyecto-de-aula)
 
 
 ## 2.1. Creación de bibliotecas o drivers para sensores
@@ -223,6 +224,31 @@ Luego de que el maestro de la condición de inicio (*Start*), también debe envi
 
 *Tomada de: [[4]](#referencias)*
 
+### I^2C en el ESP32
+
+La ESP32 posee dos controladores (puertos) I2C, con los que se puede entablar una comunicación en el bus I2C. Un solo controlador I2C puede ser un maestro o un esclavo.
+
+La ESP32 soporta direccionamiento de 7 bits y de 10 bits. ESP32 admite tanto el modo estándar I2C (SM, *Standard Mode*) como el modo rápido (FM, *Fast Mode*), cuyas frecuencias de reloj van desde 100KHz hasta 400KHz, respectivamente [[6]](#referencias).
+
+**Nota de ESPRESSIF:**
+
+La frecuencia de SCL está influenciada tanto por la resistencia pull-up como por la capacitancia del cable. Por lo tanto, se recomienda encarecidamente elegir resistencias de *pull-up* apropiadas para que la frecuencia sea precisa. El valor recomendado para las resistencias *pull-up* generalmente varía de 1K ohmios a 10K ohmios [[6]](#referencias).
+
+Tenga en cuenta que cuanto mayor sea la frecuencia, menor será la resistencia *pull-up* (pero no menor que 1 KOhms). De hecho, las resistencias grandes disminuirán la corriente, lo que aumentará el tiempo de conmutación del reloj y reducirá la frecuencia. Por lo general, recomendamos un rango de 2 KOhms a 5 KOhms, pero los usuarios también pueden necesitar hacer algunos ajustes dependiendo de sus requerimientos [[6]](#referencias).}
+
+### Estructura de archivos de ESP-IDF para I^2C
+
+<img src="imagenes/2_3_1_I2C_code_structure.png" width="500">
+
+Fuente: Tomada de [[6]](#referencias).
+
+`i2c.h`: El archivo de encabezado de las API I2C tipo *legacy* (controlador heredado, en desuso).
+
+`i2c_master.h`: El archivo de encabezado que proporciona API específicas del modo de comunicación estándar para el modo *Master* (controlador con modo maestro).
+
+`i2c_slave.h`: El archivo de encabezado que proporciona API específicas del modo de comunicación estándar par ael modo *Slave* (con modo esclavo).
+
+### [Práctica I^2C](Unidad_2/2_3_1_Practica_3_I2C.md)
 
 
 
@@ -232,7 +258,7 @@ Luego de que el maestro de la condición de inicio (*Start*), también debe envi
 ## 2.5. Prototipo funcional del proyecto de aula
 
 
-## 2.5. Programación de firmware del proyecto de aula
+## 2.6. Programación de firmware del proyecto de aula
 
 
 
@@ -243,3 +269,4 @@ Luego de que el maestro de la condición de inicio (*Start*), también debe envi
 - [3] https://trucosinformaticos.wordpress.com/2018/04/01/para-que-sirve-volatile-en-c/ 
 - [4] http://arantxa.ii.uam.es/~gdrivera/labetcii/docs/I2C_alcala.pdf 
 - [5] https://www.ti.com/lit/an/slva704/slva704.pdf?ts=1712031173602&ref_url=https%253A%252F%252Fwww.google.com%252F 
+- [6] https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/i2c.html
