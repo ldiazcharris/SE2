@@ -4,7 +4,7 @@
 
 - [2.1. Creación de bibliotecas o drivers para sensores.](#21-creación-de-bibliotecas-o-drivers-para-sensores)
 - [2.2. Práctica de creación de bibliotecas o drivers.](#22-práctica-de-creación-de-bibliotecas-o-drivers)
-- [2.3. Protocolos de comunicación digital (I2C y SPI).](#23-protocolos-de-comunicación-digital-i2c-y-spi)
+- [2.3. Protocolos de comunicación digital ($I^2C$ y SPI).](#23-protocolos-de-comunicación-digital-i2c-y-spi)
 	- [2.3.1. Protocolo I^2C](#231-protocolo-i2c)
 - [2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi).](#24-protocolos-de-comunicación-inalámbrica-bluetooth-y-wifi)
 - [2.5. Programación de firmware del proyecto de aula.](#25-prototipo-funcional-del-proyecto-de-aula)
@@ -42,7 +42,7 @@ Los *device drivers* se pueden dividir en dos grupos:
 
 2. **Genéricos**. Estos gestionan el hardware que está en el PCB, fuera del microcontrolador. En un driver genérico, usualmente se tienen porciones de código específico para la arquitectura, debido a que no se puede desasociar el microcontrolador del resto del sistema. Asimismo un driver genérico gestiona el hardware no específico del procesador, por lo que se puede construir para ser portable. Ejemplos:
 	- Manejo de LCD alfanuméricos / gráficos / 7 segmentos.
-	- Memorias: I2C / SPI externa, RAM externa, FLASH externa.
+	- Memorias: $I^2C$ / SPI externa, RAM externa, FLASH externa.
 	- Convertidores ADC / DAC.
 	- Sensores analógicos y digitales.
 
@@ -127,13 +127,13 @@ Cada una de ellas proporciona ventajas y desventajas en términos de tiempo de d
 [2.2.2 Practica 2 Interrupt driven driver](Unidad_2/2_2_2_Practica_2_interrupt_driver.md).
 
 
-## 2.3. Protocolos de comunicación digital (I2C y SPI)
+## 2.3. Protocolos de comunicación digital ($I^2C$ y SPI)
 
-### 2.3.1. Protocolo I2C 
+### 2.3.1. Protocolo $I^2C$ 
 
-El acrónimo I2C significa *Inter Integrated Circuid*. Este protocolo está diseñado específicamente para llevar a cabo comunicación digital entre circuitos integrados. Este protocolo de comunicación simplifica las conexiones necesarias para interconectar y comunicar varios dispositivos a la vez.
+El acrónimo $I^2C$ significa *Inter Integrated Circuid*. Este protocolo está diseñado específicamente para llevar a cabo comunicación digital entre circuitos integrados. Este protocolo de comunicación simplifica las conexiones necesarias para interconectar y comunicar varios dispositivos a la vez.
 
-El protocolo I2C fue desarrollado por *Philips Semiconductors* (hoy *NXP Semiconductors*) entre 1980 y 1982. Hoy en día muchos fabricantes de circuitos integrados (como microcontroladores) ofrecen dispositivos que implementan un bus I2C para control o comunicaciones. 
+El protocolo $I^2C$ fue desarrollado por *Philips Semiconductors* (hoy *NXP Semiconductors*) entre 1980 y 1982. Hoy en día muchos fabricantes de circuitos integrados (como microcontroladores) ofrecen dispositivos que implementan un bus $I^2C$ para control o comunicaciones. 
 
 Este protocolo de comunicación tiene la siguientes características:
 
@@ -148,23 +148,23 @@ Este protocolo de comunicación tiene la siguientes características:
 	- Fast: hasta 400 Kbits/s.
 	- High-speed: hasta 3,4 Mbits/s
 8. Cada dispositivo del bus tiene una dirección única.
-	- 7 bits, I2C estándar.
-	- 11 bits, I2C mejorado.
+	- 7 bits, $I^2C$ estándar.
+	- 11 bits, $I^2C$ mejorado.
 9. Distancia y número de dispositivos:
 	- Limitado por la capacitancia del bus (inferior a 400pF). Normalmente 2 o 3 metros.
 	- Drivers para largas distancias (centenares de metros).
 10. El protocolo requiere que cada byte de información sea confirmado (ACK) por el destinatario.
-11. Se pueden conectar al bus 128 dispositivos. Sin embargo, para la versión I2C de direccionamiento con 10 bits se pueden direccionar hasta 1024 dispositivos. 
+11. Se pueden conectar al bus 128 dispositivos. Sin embargo, para la versión $I^2C$ de direccionamiento con 10 bits se pueden direccionar hasta 1024 dispositivos. 
 	
 En este protocolo de comunicación la capa física está compuesta de dos pines principales a saber: SDA (*Serial Data line*) y SCL (*Serial Clock line*).
 
 Además, para que exista compatibilidad eléctrica entre los dispositivos, se debe conectar el pin de GND. Por otro lado, debido a la característica particular de los pines SDA y SCL, tienen la configuración eléctrica de *open drain* u *open collector*, se deben conectar resistores del tipo *pull-up* en las líneas SDA y SCL. Este resitor puede estar en el rango de entre 2 kΩ hasta 10 kΩ. 
 
-Cada dispositivo que se requiera conectar a un bus I2C, debe haces en las líneas de transmisión SDA y SCL. Todos en la misma conexión. 
+Cada dispositivo que se requiera conectar a un bus $I^2C$, debe haces en las líneas de transmisión SDA y SCL. Todos en la misma conexión. 
 
 <img src="imagenes/2_3_1_I2C_Colector_abierto.png" width="500">
 
-El dispositivo maestro en un bus I2C tiene las siguientes capacidades: 
+El dispositivo maestro en un bus $I^2C$ tiene las siguientes capacidades: 
 - Controla la comunicación
 - Genera la señal de reloj del bus (SCL).
 - Inicia y termina la comunicación.
@@ -172,7 +172,7 @@ El dispositivo maestro en un bus I2C tiene las siguientes capacidades:
 - Establece el sentido de la comunicación (recepción / transmisión).
 
 
-**Mini Glosario I2C**
+**Mini Glosario $I^2C$**
 
 - Emisor: Dispositivo que envía datos al bus.
 - Receptor: Dispositivo que recibe datos del bus.
@@ -188,13 +188,13 @@ de reloj y termina la transferencia.
 
 **Condiciones básicas para la comunicación**
 
-La transmisión en el protocolo I2C los datos viajan por SDA. Por cada bit de información es necesario un pulso de SCL y los datos sólo pueden cambiar cuando SCL está a nivel bajo.
+La transmisión en el protocolo $I^2C$ los datos viajan por SDA. Por cada bit de información es necesario un pulso de SCL y los datos sólo pueden cambiar cuando SCL está a nivel bajo.
 
 <img src="imagenes/2_3_1_I2C_Trama.png" width="500">
 
 *Tomada de: [[4]](#referencias)*
 
-En el protocolo I2C, la unidad básica de comunicación es el byte, por lo tanto, las transferencias de información son de 8 bits. Cada vez que se envía un byte, se requiere una respuesta de confirmación (ACK). Este ACK se da de la siguiente mantera: 
+En el protocolo $I^2C$, la unidad básica de comunicación es el byte, por lo tanto, las transferencias de información son de 8 bits. Cada vez que se envía un byte, se requiere una respuesta de confirmación (ACK). Este ACK se da de la siguiente mantera: 
 
 El receptor (maestro o esclavo) del mensaje mantiene SDA a nivel bajo durante un tiempo de bit. Si no lo hace, se entenderá como un NACK, (no confirmado).
 
@@ -226,9 +226,9 @@ Luego de que el maestro de la condición de inicio (*Start*), también debe envi
 
 ### I^2C en el ESP32
 
-La ESP32 posee dos controladores (puertos) I2C, con los que se puede entablar una comunicación en el bus I2C. Un solo controlador I2C puede ser un maestro o un esclavo.
+La ESP32 posee dos controladores (puertos) $I^2C$, con los que se puede entablar una comunicación en el bus $I^2C$. Un solo controlador $I^2C$ puede ser un maestro o un esclavo.
 
-La ESP32 soporta direccionamiento de 7 bits y de 10 bits. ESP32 admite tanto el modo estándar I2C (SM, *Standard Mode*) como el modo rápido (FM, *Fast Mode*), cuyas frecuencias de reloj van desde 100KHz hasta 400KHz, respectivamente [[6]](#referencias).
+La ESP32 soporta direccionamiento de 7 bits y de 10 bits. ESP32 admite tanto el modo estándar $I^2C$ (SM, *Standard Mode*) como el modo rápido (FM, *Fast Mode*), cuyas frecuencias de reloj van desde 100KHz hasta 400KHz, respectivamente [[6]](#referencias).
 
 **Nota de ESPRESSIF:**
 
