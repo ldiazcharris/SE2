@@ -224,7 +224,7 @@ Luego de que el maestro de la condición de inicio (*Start*), también debe envi
 
 *Tomada de: [[4]](#referencias)*
 
-### I^2C en el ESP32
+### $I^2C$ en el ESP32
 
 La ESP32 posee dos controladores (puertos) $I^2C$, con los que se puede entablar una comunicación en el bus $I^2C$. Un solo controlador $I^2C$ puede ser un maestro o un esclavo.
 
@@ -236,7 +236,7 @@ La frecuencia de SCL está influenciada tanto por la resistencia pull-up como po
 
 Tenga en cuenta que cuanto mayor sea la frecuencia, menor será la resistencia *pull-up* (pero no menor que 1 KOhms). De hecho, las resistencias grandes disminuirán la corriente, lo que aumentará el tiempo de conmutación del reloj y reducirá la frecuencia. Por lo general, recomendamos un rango de 2 KOhms a 5 KOhms, pero los usuarios también pueden necesitar hacer algunos ajustes dependiendo de sus requerimientos [[6]](#referencias).}
 
-### Estructura de archivos de ESP-IDF para I^2C
+### Estructura de archivos de ESP-IDF para $I^2C$
 
 <img src="imagenes/2_3_1_I2C_code_structure.png" width="500">
 

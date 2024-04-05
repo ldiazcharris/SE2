@@ -1,20 +1,21 @@
 
-# **Práctica 2.3.1. El bus I^2C**
+# **Práctica 2.3.1. El protocolo $I^2C$**
 
 ## **Objetivo**
 
-Guiar al estudiante en el diseño de un driver tipo "Interrupt Driven Driver", a través del periférico UART del microcontrolador. 
+Guiar al estudiante en la configuración y uso del periférico $I^2C$.
+Mejorar la comprensión del funcionamiento del protocolo $I^2C$.
 
 ## **Materiales**
 
 ***Hardware***
 
 - 1 Computador.
-- 1 Placa de desarrollo basada en ESP32 (cualquiera que tenga a disposición).
+- 2 Placas de desarrollo basada en ESP32 (cualquiera que tenga a disposición). (Trabajo inter-grupos)
 - 1 Cable de programación.
 - 1 Protoboard.
-- 3 LED's.
-- 4 cables dupont macho-macho.
+- 1 Display LCD 16x2.
+- 10 cables dupont macho-macho.
 
 ***Software***
 
@@ -34,182 +35,114 @@ Por favor, siga la siguiente metodología.
 
 1. Inicie el programa VSCode y cree un nuevo proyecto con la herramienta platformIO siguiendo los pasos de la sección [Crear un nuevo proyecto con platformIO](/Unidad_1/0_nuevo_proyecto.md).
 	
-2. Cuando se haya creado el proyecto, despliegue la carpeta `src`, donde está el archivo "main.c" que es el archivo principal del proyecto. En este archivo se escribirá el programa. 
+2. Cuando se haya creado el proyecto, despliegue la carpeta `src`, donde está el archivo "main.c" que es el archivo principal del proyecto. En este archivo se escribirá el programa, cuyo objetivo es: 
+	1. Transmitir desde una placa ESP32 (Master) a otra (Slave) a través del bus $I^2C$, una trama de datos.
+	1. El ESP32 en modo Slave recibe e imprime por UART la trama de datos. 
 	
-	2.1. Agregue los siguientes archivos en la carpeta `src` de su proyecto: `utilities.h` y `utilities.c`, que se encuentran en la carpeta: ["bibliotecas/untilities"](/Unidad_2/bibliotecas/utilities).
-		
-3. Escriba el siguiente código dentro del archivo "main.c", cuyo objetivo es: 
-	1. Crear dos tareas que se ejecutarán de manera "simultánea" gracias a FreeRTOS.
-	1. La "Tarea UART" esperará a que ocurra una interrupción por el puerto UART_0 de la ESP32, para esperar un comando conocido:	
-		1. 10: apaga el led 1, y envía el mensaje "Light Code: 10"
-		1. 11: enciende el led 1, y envía el mensaje "Light Code: 11"
-		1. 20: apaga el led 2, y envía el mensaje "Light Code: 20"
-		1. 21: enciende el led 2, y envía el mensaje "Light Code: 21"
-		1. Si el código no es correcto, envía el mensaje "Light Code ERROR"
-	Además, envía el mensaje "Tarea UART" por UART_0 indicando la entrada a la ejecución del procesamiento de la trama recibida. 
-	
-	1. La "Tarea LED_3". Permanece haciendo un *blink* del led 3 y enviando el mensaje "Tarea LED_3" por UART_0. 
+**Este es el código para la ESP32 configurada como Master**
 
 ~~~C
+// *************** Código para el MASTER*********************************** //
 
-	/************************INCLUDES*********************************/
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/i2c.h"
 
-	#include <stdio.h>
-	#include <string.h>
-	#include "driver/gpio.h"
-	#include "driver/uart.h"
-	#include "freertos/FreeRTOS.h"
-	#include "freertos/task.h"
-	#include "freertos/queue.h"
-	#include "utilities.h"
+// Parámetros de configuración para la comunicación I2C
+#define SLAVE_ADDR          0x32   
+#define MASTER_PORT         I2C_NUM_0 
+#define MASTER_SDA          21   
+#define MASTER_SCL          22         
+#define MASTER_FREQ_HZ      100000     
+     
+// Función de inicialización del controlador I2C para modo Master
+void i2c_master_init() {
 
+    i2c_config_t i2c_master_config = {
 
-	/************************MACROS***********************************/
+    .mode = I2C_MODE_MASTER,
+    .sda_io_num = MASTER_SDA,
+    .scl_io_num = MASTER_SCL,
+    .sda_pullup_en = GPIO_PULLUP_ENABLE,
+    .scl_pullup_en = GPIO_PULLUP_ENABLE,
+    .master.clk_speed = MASTER_FREQ_HZ,
+    };
+	
+    i2c_param_config(MASTER_PORT, &i2c_master_config);
+    i2c_driver_install(MASTER_PORT, i2c_master_config.mode, 0, 0, 0);
+}
 
-	#define BUF_SIZE 1024
-	#define LED_1 2
-	#define LED_2 4
-	#define LED_3 15
-	#define UART0 UART_NUM_0
-	#define UART1 UART_NUM_1
+void app_main() {
+    i2c_master_init();
+    
+    const uint8_t data[] = {'H', 'O', 'L', 'A'}; 
+    
+    while(1) {
 
-	/**************DECLARACIÓN DE VARIABLES GLOBALES*******************/
+        // Se transmite la información al SLAVE
+        // Parámetros que recibe la función i2c_master_write_to_device()
+        //                        (i2c_num, device_address, *write_buffer, write_size, ticks_to_wait)
+        i2c_master_write_to_device(MASTER_PORT, SLAVE_ADDR, data, (size_t)sizeof(data), portMAX_DELAY/portTICK_PERIOD_MS);
+        
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
 
-	static QueueHandle_t uart0_queue;
-	static QueueHandle_t uart1_queue;
+    }
+}
 
-	/****************DECLARACIÓN DE FUNCIONES*************************/
-
-	static void uart_interrupt_task(void *params);
-	static void led_task(void *params);
-
-	/**********************FUNCIÓN PRINCIPAL**************************/
-
-	void app_main()
-	{
-		gpio_reset_pin(LED_1);
-		gpio_reset_pin(LED_2);
-		gpio_reset_pin(LED_3);
-		gpio_set_direction(LED_1, GPIO_MODE_OUTPUT);
-		gpio_set_direction(LED_2, GPIO_MODE_OUTPUT);
-		gpio_set_direction(LED_3, GPIO_MODE_OUTPUT);
-
-		uart_init(UART0, 115200, BUF_SIZE * 2, BUF_SIZE * 2, 50, &uart0_queue, ESP_INTR_FLAG_LEVEL1);
-		//          (UART_NUM, TX, RX, RTS, CTS)
-		uart_set_pin(UART0,     1,  3,  22,  19);
-
-		uart_init(UART1, 115200, BUF_SIZE * 2, BUF_SIZE * 2, 50, &uart1_queue, ESP_INTR_FLAG_LEVEL1); //   ESP_INTR_FLAG_IRAM
-		//          (UART_NUM, TX, RX, RTS, CTS)
-		uart_set_pin(UART1,    33, 26,  14,  12);
-
-		xTaskCreate(uart_interrupt_task,
-					"Tarea UART",
-					BUF_SIZE * 4,
-					NULL,
-					12,
-					NULL);
-
-		xTaskCreate(led_task,
-					"Tarea LED_3",
-					BUF_SIZE * 4,
-					NULL,
-					7,
-					NULL);
-	}
-
-	/****************DEFINICIÓN DE FUNCIONES**************************/
-
-	static void uart_interrupt_task(void *params)
-	{
-		uart_event_t uart_event;
-		char *uart_recv_data = (char *)malloc(BUF_SIZE);
-		char *response_string = (char *)malloc(BUF_SIZE);
-		uint16_t light_code; 
-		while (1)
-		{
-
-			
-			
-			if (xQueueReceive(uart0_queue, (void *)&uart_event, (TickType_t)portMAX_DELAY))
-			{
-				uart_transmit(UART0, "Tarea UART\n", strlen("Tarea UART\n"));
-				bzero(uart_recv_data, BUF_SIZE); // Puntero para guardar la información recibida
-				bzero(response_string, BUF_SIZE); 
-
-				switch (uart_event.type)
-				{
-				case UART_DATA:
-					uart_receive(UART0, (void *)uart_recv_data, (uint32_t)uart_event.size);
-					uart_transmit(UART0, (const void*)uart_recv_data, (uint32_t)uart_event.size);
-					
-					light_code = (uint16_t)atoi((const char *)uart_recv_data);
-					
-					switch(light_code)
-					{
-						case 10:
-							sprintf(response_string, "Light Code: 10\n");
-							uart_transmit(UART0, response_string, strlen((const char*)response_string));
-							gpio_set_level(LED_1, 0);
-							break;
-
-						case 11:
-							sprintf(response_string, "Light Code: 11\n");
-							uart_transmit(UART0, response_string, strlen((const char*)response_string));
-							gpio_set_level(LED_1, 1);
-							break;
-						
-						case 20:
-							sprintf(response_string, "Light Code: 20\n");
-							uart_transmit(UART0, response_string, strlen((const char*)response_string));
-							gpio_set_level(LED_2, 0);
-							break;
-
-						case 21:
-							sprintf(response_string, "Light Code: 21\n");
-							uart_transmit(UART0, response_string, strlen((const char*)response_string));
-							gpio_set_level(LED_2, 1);
-							break;
-						default:
-							sprintf(response_string, "Light Code ERROR\n");
-							gpio_set_level(LED_2, 0);
-							gpio_set_level(LED_1, 1);
-							delay(500);
-							gpio_set_level(LED_2, 1);
-							gpio_set_level(LED_1, 0);
-							delay(500);
-							gpio_set_level(LED_2, 0);
-							gpio_set_level(LED_1, 0);
-
-							uart_transmit(UART0, response_string, strlen((const char*)response_string));
-					}
-
-					//uart_transmit(UART1, response_string, strlen((const char*)response_string));
-					break; 
-
-				default:
-					break;
-				}
-			}
-		}
-
-		free(uart_recv_data);
-		free(response_string);
-	}
+~~~
 
 
-	static void led_task(void *params)
-	{
-		while(1){
-			
-			gpio_set_level(LED_3, 0);
-			delay(500);
-			gpio_set_level(LED_3, 1);
-			delay(500);
-			uart_transmit(UART0, "Tarea LED_3\n", strlen("Tarea LED_3\n"));
-			delay(500);
-		}
-		
-	}
+
+
+**Este es el código para la ESP32 configurada como Slave**
+
+~~~C
+// *************** Código para el SLAVE*********************************** //
+
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/i2c.h"
+
+// Parámetros de configuración para la comunicación I2C
+#define SLAVE_RX_BUF        1024
+#define SLAVE_ADDR          0x28
+#define SLAVE_SCL           22
+#define SLAVE_SDA           21
+
+
+// Función de inicialización del controlador I2C para modo Slave
+void i2c_slave_init() {
+
+    i2c_config_t i2c_slave_config = {
+
+    .mode = I2C_MODE_SLAVE,
+    .sda_io_num = SLAVE_SDA,
+    .sda_pullup_en = GPIO_PULLUP_ENABLE,
+    .scl_io_num = SLAVE_SCL,
+    .scl_pullup_en = GPIO_PULLUP_ENABLE,
+    .slave.addr_10bit_en = 0,
+    .slave.slave_addr = SLAVE_ADDR,
+    };
+
+    i2c_param_config(I2C_NUM_0, &i2c_slave_config);
+    i2c_driver_install(I2C_NUM_0, i2c_slave_config.mode, SLAVE_RX_BUF, 0, 0);
+}
+
+void app_main() {
+    i2c_slave_init();
+    
+    uint8_t data[4];
+    size_t size;
+    
+    while(1) {
+
+        // Se recibe eternamente información del Master
+        i2c_slave_read_buffer(I2C_NUM_0, data, &size, portMAX_DELAY);
+        printf("Received data: %c %c %c %c\n", data[0], data[1], data[2], data[3]);
+    }
+}
 
 ~~~
 
@@ -219,7 +152,7 @@ Por favor, siga la siguiente metodología.
 	- Necesita mantener conectado el cable de programación al computador y a la placa.
 	- Realice el siguiente circuito usando los materiales descritos en la imagen:
 	
-		<img src="/Unidad_2/imagenes/2_2_2_ejercicio_introductorio_practica_2.png" width=500>
+		<img src="/Unidad_2/imagenes/2_3_1_ejercicio_introductorio_practica.png" width=500>
 
 5. En la parte inferior de Visual Studio Code hay una serie de botones, se describen los más relevantes:
 
@@ -240,7 +173,9 @@ Por favor, siga la siguiente metodología.
 
 	<img src="/Unidad_1/imagenes/1.10_pront_carga_programa.png" width=500>
 
-8. Luego puede usar cualquier programa para leer el puerto serial del computador. Sin embargo, se le recomienda [Hercules](https://www.hw-group.com/software/hercules-setup-utility). 
+8. **Abra el puerto UART_0 de la placa ESP32 que está en modo *Slave* en un monitor serial.**
+
+Puede usar cualquier programa para leer el puerto serial del computador. Sin embargo, se le recomienda [Hercules](https://www.hw-group.com/software/hercules-setup-utility). 
 	- Hercules es un software portable (no requiere instalación). Para los usuarios de Windows, luego de descargar el archivo, para ejecutarlo puede hacer doble clic.
 	- Al ejecutarlo, se le mostrará la siguiente vista:
 
@@ -256,59 +191,20 @@ Por favor, siga la siguiente metodología.
 
 			<img src="/Unidad_1/imagenes/1.10.2_Hercules_3.png" width=100>
 
-	- Posteriormente, de clic en el botón Open del panel "Serial". Esto abrirá el puerto serie y podrá transmitir y recibir con la placa ESP32 a través de comunicación UART. 
-	
-	
-	- El resultado de esto se verá así: 
-	<img src="/Unidad_2/imagenes/2_2_2_Hercules_practica_2.png" width=500>
-	
+	- Posteriormente, de clic en el botón Open del panel "Serial". Esto abrirá el puerto serie y podrá transmitir y recibir con la placa ESP32 a través de comunicación UART. 	
 	
 
 ## **Práctica**
 
-Desarrolle un driver o biblioteca que facilite la portabilidad de código para crear un programa que sea capaz de controlar el encendido y apagado de 3 motores, a través de las salidas digitales de la placa ESP32. Los comandos de encendido y apagado se enviarán a través de una cadena de comandos separados por comas, usando la comunicación UART. El driver debe seguir los siguientes requerimientos:
+Implemente en un prototipo una comunicación I2C entre 3 dispositivos a saber: un master (ESP32) y dos slaves (ESP32 y pantalla LCD). 
 
-1. **Inicialización del puerto UART** 
-	
-	Aprovéchese la funcionalidad que se compartió en los archivos `utilities.h` y `utilities.c`, para crear un nuevo driver que emplee las mismas funciones (reutilice el código en su propio driver).
+Para la pantalla LCD puede usar el [driver LCD I2C](https://github.com/ldiazcharris/SE1/tree/main/Unidad_2/bibliotecas/lcd_i2c) proporcionado en el curso de Sistemas Embebidos I. [Ver Práctica 2.6 Integración con visualizadores, para recordar](https://github.com/ldiazcharris/SE1/blob/main/Unidad_2/2.6_practica_2_6_visualizadores.md).
 
-2. **Distintas instancias del puerto UART**
+El prototipo debe realizar lo siguiente:
 
-	El driver deberá permitir la creación de distintas instancias del puerto UART (en este caso solo 2) en un mismo programa. Es decir, poder configurar más de un puerto UART para la comunicación entre varios dispositivos. Nuevamente, deberá utilizar las funciones ya proporcionadas por `utilities.h`.
+1. El master debe recibir comandos por UART, usando el driver creado en la práctica "2.2.2. Practica 2 Interrupt driver", pero en lugar de activar los motores debe enviar comandos a través del bus $I^2$ a la ESP32 slave, donde estarán los motores (LEDS). 
+1. El master debe imprimir en la pantalla LCD el estado de los 3 motores. 
 
-3. **Interpretación de la trama UART**
-	
-	Los motores deben poderse encender y apagar de manera independiente. Por lo cual, deberá agregar una función que esté preparada para interpretar la siguiente trama: 
-	
-	~~~
-	S,motor1_on_off,motor2_on_off,motor3_on_off,E
-	~~~
-	
-	Donde:
-	`S` byte que representa el inicio de la trama.
-	`E` byte que representa el final de la trama.
-	`motor1_on_off`, `motor2_on_off` y `motor2_on_off` byte que representa con valores numéricos comprendidos entre 0 y 1. Que representan los estados de apagado y activación de los tres motores. 
-	
-	En consecuencia, el microcontrolador deberá realizar la acción pertinente sobre los motores. 
-	
-	**Ejemplo:***
-	
-	Suponga que se recibió la trama `S,1,0,1,E`, esto quiere decir, que los motores 1 y 3 estarán encendidos y el motor 2 apagado. 	
-	
-	
-4. **Consideraciones para la interpretación de la trama**
-	
-	La función a desarrollar para interpretar la trama UART recibida debe considerar las siguientes condiciones:
-	
-	1. Debe recibir la trama a través de una cola de freeRTOS.
-	2. Si la trama no contiene los caracteres `S` y `E`, la trama deberá ser descartada. 
-	3. Si los valores de las tramas `motor1_on_off`, `motor2_on_off` y `motor2_on_off` no son numéricos y no están en el rango permitido, la trama debe ser descartada. 
-	4. Si la trama tiene campos incompletos deberá ser descartada.
-
-
-5. **Prueba del driver**
-
-Para comprobar la funcionalidad del driver, debe enviar 5 tramas erróneas con diferentes combinaciones y 5 tramas válidas con diferentes combinaciones. El prototipo debe responder adecuadamente a todas las pruebas. Es decir, descartar las condiciones de trama errónea sin inmutarse y realizar los cambios solicitados en las tramas válidas. 
 
 
 # Referencias
