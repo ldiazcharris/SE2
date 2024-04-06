@@ -248,7 +248,7 @@ Fuente: Tomada de [[6]](#referencias).
 
 `i2c_slave.h`: El archivo de encabezado que proporciona API específicas del modo de comunicación estándar par ael modo *Slave* (con modo esclavo).
 
-### [Práctica I^2C](Unidad_2/2_3_1_Practica_3_I2C.md)
+### [Práctica $I^2C$](2_3_1_Practica_3_I2C.md)
 
 
 
