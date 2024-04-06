@@ -69,21 +69,22 @@ void i2c_master_init() {
     .master.clk_speed = MASTER_FREQ_HZ,
     };
 	
-    i2c_param_config(MASTER_PORT, &i2c_master_config);
-    i2c_driver_install(MASTER_PORT, i2c_master_config.mode, 0, 0, 0);
+    ESP_ERROR_CHECK(i2c_param_config(MASTER_PORT, &i2c_master_config));
+    ESP_ERROR_CHECK(i2c_driver_install(MASTER_PORT, i2c_master_config.mode, 0, 0, 0));
 }
 
 void app_main() {
+
     i2c_master_init();
-    
-    const uint8_t data[] = {'H', 'O', 'L', 'A'}; 
+                        //    'H'  'O'   'L',   'A'
+    const uint8_t data[4] = {0x48, 0x4F, 0x4C, 0x41}; 
     
     while(1) {
 
         // Se transmite la información al SLAVE
         // Parámetros que recibe la función i2c_master_write_to_device()
         //                        (i2c_num, device_address, *write_buffer, write_size, ticks_to_wait)
-        i2c_master_write_to_device(MASTER_PORT, SLAVE_ADDR, data, (size_t)sizeof(data), portMAX_DELAY/portTICK_PERIOD_MS);
+        ESP_ERROR_CHECK(i2c_master_write_to_device(MASTER_PORT, SLAVE_ADDR, data, (size_t)sizeof(data), portMAX_DELAY/portTICK_PERIOD_MS));
         
         vTaskDelay(1000 / portTICK_PERIOD_MS);
 
@@ -104,6 +105,8 @@ void app_main() {
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/i2c.h"
+#include <stdlib.h>
+#include <string.h>
 
 // Parámetros de configuración para la comunicación I2C
 #define SLAVE_RX_BUF        1024
@@ -126,22 +129,29 @@ void i2c_slave_init() {
     .slave.slave_addr = SLAVE_ADDR,
     };
 
-    i2c_param_config(I2C_NUM_0, &i2c_slave_config);
-    i2c_driver_install(I2C_NUM_0, i2c_slave_config.mode, SLAVE_RX_BUF, 0, 0);
+    ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_0, &i2c_slave_config));
+    ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM_0, i2c_slave_config.mode, SLAVE_RX_BUF*2, 0, 0));
 }
 
 void app_main() {
+
     i2c_slave_init();
     
+    size_t size = 4;
     uint8_t data[4];
-    size_t size;
+    int len = 0;
+
+    bzero(data, size);
     
     while(1) {
-
+        
         // Se recibe eternamente información del Master
-        i2c_slave_read_buffer(I2C_NUM_0, data, &size, portMAX_DELAY);
-        printf("Received data: %c %c %c %c\n", data[0], data[1], data[2], data[3]);
+        len = i2c_slave_read_buffer(I2C_NUM_0, data, size, portMAX_DELAY);
+        if(len > 0)
+            printf("Received data: %c, %c, %c, %c\n", data[0], data[1], data[2], data[3]);
+        
     }
+    
 }
 
 ~~~
