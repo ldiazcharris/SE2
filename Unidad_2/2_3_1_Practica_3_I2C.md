@@ -107,7 +107,7 @@ void app_main() {
 
 // Parámetros de configuración para la comunicación I2C
 #define SLAVE_RX_BUF        1024
-#define SLAVE_ADDR          0x28
+#define SLAVE_ADDR          0x32
 #define SLAVE_SCL           22
 #define SLAVE_SDA           21
 
@@ -176,22 +176,22 @@ void app_main() {
 8. **Abra el puerto UART_0 de la placa ESP32 que está en modo *Slave* en un monitor serial.**
 
 Puede usar cualquier programa para leer el puerto serial del computador. Sin embargo, se le recomienda [Hercules](https://www.hw-group.com/software/hercules-setup-utility). 
-	- Hercules es un software portable (no requiere instalación). Para los usuarios de Windows, luego de descargar el archivo, para ejecutarlo puede hacer doble clic.
-	- Al ejecutarlo, se le mostrará la siguiente vista:
+- Hercules es un software portable (no requiere instalación). Para los usuarios de Windows, luego de descargar el archivo, para ejecutarlo puede hacer doble clic.
+- Al ejecutarlo, se le mostrará la siguiente vista:
 
-		<img src="/Unidad_1/imagenes/1.10.2_Hercules_1.png" width=500>
+<img src="/Unidad_1/imagenes/1.10.2_Hercules_1.png" width=500>
 
-	- Vaya a la pestaña "Serial" que se encuentra en la parte superior izquierda de la ventana de Hercules. De clic en ella y se mostrará la siguiente vista:
+- Vaya a la pestaña "Serial" que se encuentra en la parte superior izquierda de la ventana de Hercules. De clic en ella y se mostrará la siguiente vista:
 
-		<img src="/Unidad_1/imagenes/1.10.2_Hercules_2.png" width=500>
+<img src="/Unidad_1/imagenes/1.10.2_Hercules_2.png" width=500>
 
-	- Luego, en el panel derecho denominado "Serial", configure la comunicación UART. En esta guía no se profundizará en la comunicación UART, que se dejará para guías posteriores. Simplemente, siga las siguientes recomendaciones:
-		- Elija el Puerto COM al que está conectada la tarjeta ESP32. Para los usuarios de Windows, esto lo puede averiguar en la "Administración de Dispositivos".
-		- Luego configure cada uno de los campos como se muestra a continuación:
+- Luego, en el panel derecho denominado "Serial", configure la comunicación UART. En esta guía no se profundizará en la comunicación UART, que se dejará para guías posteriores. Simplemente, siga las siguientes recomendaciones:
+	- Elija el Puerto COM al que está conectada la tarjeta ESP32. Para los usuarios de Windows, esto lo puede averiguar en la "Administración de Dispositivos".
+	- Luego configure cada uno de los campos como se muestra a continuación:
 
-			<img src="/Unidad_1/imagenes/1.10.2_Hercules_3.png" width=100>
+	<img src="/Unidad_1/imagenes/1.10.2_Hercules_3.png" width=100>
 
-	- Posteriormente, de clic en el botón Open del panel "Serial". Esto abrirá el puerto serie y podrá transmitir y recibir con la placa ESP32 a través de comunicación UART. 	
+- Posteriormente, de clic en el botón Open del panel "Serial". Esto abrirá el puerto serie y podrá transmitir y recibir con la placa ESP32 a través de comunicación UART. 	
 	
 
 ## **Práctica**

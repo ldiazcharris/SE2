@@ -131,7 +131,7 @@ Cada una de ellas proporciona ventajas y desventajas en términos de tiempo de d
 
 ### 2.3.1. Protocolo $I^2C$ 
 
-El acrónimo $I^2C$ significa *Inter Integrated Circuid*. Este protocolo está diseñado específicamente para llevar a cabo comunicación digital entre circuitos integrados. Este protocolo de comunicación simplifica las conexiones necesarias para interconectar y comunicar varios dispositivos a la vez.
+El acrónimo $I^2C$ significa *Inter Integrated Circuit*. Este protocolo está diseñado específicamente para llevar a cabo comunicación digital entre circuitos integrados. Este protocolo de comunicación simplifica las conexiones necesarias para interconectar y comunicar varios dispositivos a la vez.
 
 El protocolo $I^2C$ fue desarrollado por *Philips Semiconductors* (hoy *NXP Semiconductors*) entre 1980 y 1982. Hoy en día muchos fabricantes de circuitos integrados (como microcontroladores) ofrecen dispositivos que implementan un bus $I^2C$ para control o comunicaciones. 
 
