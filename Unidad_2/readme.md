@@ -123,8 +123,9 @@ Cada una de ellas proporciona ventajas y desventajas en términos de tiempo de d
 
 ## 2.2. Práctica de creación de bibliotecas o drivers
 
-[2.2.2 Practica 1 Polled driver](Unidad_2/2_2_1_Practica_1_polled_driver.md).
-[2.2.2 Practica 2 Interrupt driven driver](Unidad_2/2_2_2_Practica_2_interrupt_driver.md).
+[2.2.2 Practica 1 Polled driver](./2_2_1_Practica_1_polled_driver.md).
+
+[2.2.2 Practica 2 Interrupt driven driver](./2_2_2_Practica_2_interrupt_driver.md).
 
 
 ## 2.3. Protocolos de comunicación digital ($I^2C$ y SPI)
