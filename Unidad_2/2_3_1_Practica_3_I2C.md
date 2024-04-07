@@ -84,7 +84,7 @@ void app_main() {
         // Se transmite la información al SLAVE
         // Parámetros que recibe la función i2c_master_write_to_device()
         //                        (i2c_num, device_address, *write_buffer, write_size, ticks_to_wait)
-        ESP_ERROR_CHECK(i2c_master_write_to_device(MASTER_PORT, SLAVE_ADDR, data, (size_t)sizeof(data), portMAX_DELAY/portTICK_PERIOD_MS));
+        ESP_ERROR_CHECK(i2c_master_write_to_device(MASTER_PORT, SLAVE_ADDR, data, (size_t)sizeof(data), 100/portTICK_PERIOD_MS));
         
         vTaskDelay(1000 / portTICK_PERIOD_MS);
 
