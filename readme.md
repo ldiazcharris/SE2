@@ -46,6 +46,8 @@ Para organizarnos adecuadamente, se necesitará que se agrupen en parejas, estas
 
 - 1 Display 7 segmentos.
 
+- Matriz de puntos led con interfaz SPI MAX7219. [Imagen de referencia](img/LCD_16x2_I2C.png).
+
 - 1 Display LCD de 16x2 (con módulo I2C integrado). [Imagen de referencia](img/LCD_16x2_I2C.png).
 
 - 1 Servomotor SG90. [Imagen de referencia](img/servo_sg90.jpg).

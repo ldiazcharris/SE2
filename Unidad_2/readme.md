@@ -251,6 +251,95 @@ Fuente: Tomada de [[6]](#referencias).
 
 ### [Práctica I2C](./2_3_1_Practica_3_I2C.md)
 
+### 2.3.2. Protocolo *Serial Peripheral Interface* (SPI)
+
+### Introducción a SPI
+
+La interfaz periférica serial (SPI, del inglés *Serial Peripheral Interface*) es una interfaz de comunicación utilizada para enviar datos entre múltiples dispositivos. Estos dispositivos están organizados en una configuración de "maestro y esclavo", en la que el maestro tiene control sobre los esclavos y los esclavos reciben instrucciones del maestro. 
+
+La implementación más común de SPI consiste en una configuración en la que un solo dispositivo es el maestro y el resto de los dispositivos son esclavos.
+
+SPI es un protocolo de comunicación síncrono que transmite y recibe información simultáneamente con altas tasas de transferencia de datos y está diseñado para la comunicación a nivel de placa sobre distancias cortas.
+
+La interfaz de comunicación SPI es ventajosa cuando se necesita comunicar entre múltiples dispositivos. Ofrece una velocidad de transferencia de datos más alta que muchos otros tipos de interfaces de comunicación y permite que los datos se envíen y reciban al mismo tiempo. Sin embargo, SPI también requiere más líneas de señal o cables que otros tipos de comunicación. Además, no existe un protocolo de mensaje estándar para comunicarse a través de SPI, lo que significa que cada dispositivo podría tener su propia convención para el formato de mensaje de datos.
+
+### Conexiones SPI
+
+Se requieren cuatro señales para implementar la comunicación SPI, a saber:
+
+| Señal |                			    Descripción   			           |
+|  ---- |                			    -----------    			           |
+| MOSI  | Datos: Salida en Master (Master Out)/entrada en Slave (Slave In) |
+| MISO  | Datos: Entrada en Master (Master In)/Salida en Slave (Slave Out) |
+| SCLK  | Serial Clock                                                     |
+| CS    | Chip Select                                                      |
+
+Todas las líneas son controladas por el maestro excepto la línea MISO, que controlada por el esclavo. *Chip Select* (CS), a veces referido como *Slave Select* (SS), también suele ser denotado como -CS o -SS. porque un chip/esclavo en particular está activo cuando esa línea es puesta a nivel bajo por el maestro (la línea sobre la parte superior indica una señal invertida).
+
+<img src="imagenes/2_3_2_SPI_interface.png" width="500">
+
+<img src="imagenes/2_3_2_SPI_varios_slaves.png" width="500">
+
+- **Señal de reloj o Serial Clock**
+
+La señal de reloj es generada por el dispositivo maestro a una frecuencia específica y se utiliza para sincronizar los datos que se transmiten y reciben entre los dispositivos. Esta señal puede ser configurada por el maestro utilizando dos propiedades conocidas como polaridad del reloj (CPOL) y fase del reloj (CPHA). La polaridad del reloj determina la polaridad de la señal de reloj y puede configurarse para estar en reposo ya sea en bajo (0) o en alto (1). Una señal de reloj que está en reposo bajo tiene un pulso alto y un flanco ascendente, mientras que una señal de reloj que está en reposo alto tiene un pulso bajo y un flanco descendente.
+
+La fase del reloj determina el momento en el que los datos deben ser modificados y leídos. Si la fase del reloj se establece en cero, los datos se modifican en el flanco descendente de la señal de reloj y se leen en el flanco ascendente. Por el contrario, si esta propiedad se establece en uno, los datos se cambian en el flanco ascendente de la señal de reloj y se leen en el flanco descendente. A medida que los ciclos del reloj, los datos se envían bit a bit, simultáneamente, a través de las líneas MOSI y MISO.
+
+<img src="imagenes/2_3_2_SPI_data.jpg" width="500">
+
+- **Señal MOSI y MISO**
+
+En la comunicación SPI se utilizan dos líneas de datos conocidas como MOSI y MISO. La señal MOSI envía datos desde el maestro y es recibida por todos los esclavos. De manera similar, la línea de datos MISO transmite datos desde uno de los dispositivos esclavos hacia el dispositivo maestro.
+
+- **Señal Chip select**
+
+La señal de selección de chip es utilizada por el maestro para seleccionar con qué esclavo comunicarse. Esta línea para el esclavo específico debe ser establecida a nivel bajo cuando el maestro quiera comunicarse con el esclavo. Si se utilizan varios dispositivos esclavos en el mismo bus, entonces cada esclavo tendrá su propia línea de selección de chip dedicada, mientras comparten las líneas de reloj y datos. Cuando el maestro haya terminado de comunicarse con el esclavo, la línea de selección de chip se vuelve a establecer en nivel alto.
+
+- **Señal Write-Protect**
+
+Esta es una señal "opcional". La señal Write-Protect (WP) permitirá operaciones normales de lectura/escritura cuando se mantenga alto. Cuando el pin WP baja se inhiben todas las operaciones de escritura. Si WP baja mientras CS aún está bajo, se interrumpirá una operación de escritura. Si el ciclo de escritura interno ya se ha iniciado, la disminución de WP no tendrá ningún efecto en ninguna operación de escritura en el registro STATUS. La función del pin WP se bloquea cuando el bit WPEN en el registro STATUS se establece en un '0' lógico. Esto permitirá al usuario instalar el AT25512 en un sistema con el pin WP conectado a tierra y aún poder escribir en el registro de ESTADO. Todas las funciones del pin WP están habilitadas cuando el bit WPEN se establece en un "1" lógico.
+
+### Configuración del SPI en la ESP32
+
+
+|    Término    |                                                                                                                                                                                                                  Definición                                                                                                                                                                                                                  |   |   |   |   |
+|: ------------- :|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-:|:-:|:-:|:-:|
+| Host          | El   periférico del controlador SPI dentro del ESP32 inicia las transmisiones SPI   a través del bus y actúa como un maestro SPI.                                                                                                                                                                                                                                                                                                            |   |   |   |   |
+| Device        | Dispositivo   esclavo SPI. Un bus SPI puede estar conectado a uno o más dispositivos. Cada   dispositivo comparte las señales MOSI, MISO y SCLK, pero solo está activo en   el bus cuando el host afirma la línea CS individual del dispositivo.                                                                                                                                                                                             |   |   |   |   |
+| Bus           | Un bus de   señal, común a todos los dispositivos conectados a un host. En general, un   autobús incluye las siguientes líneas: MISO, MOSI, SCLK, una o más líneas CS   y, opcionalmente, QUADWP y QUADHD. Por lo tanto, los dispositivos están   conectados a las mismas líneas, con la excepción de que cada dispositivo   tiene su propia línea CS. Varios dispositivos también pueden compartir una   línea CS si se conectan en cadena. |   |   |   |   |
+| MOSI          | Master   Out, Slave In, también conocido como D. Transmisión de datos desde un host a   un dispositivo. También señal data0 en modo Octal/OPI.                                                                                                                                                                                                                                                                                               |   |   |   |   |
+| MISO          | Master   In, Slave Out, también conocido como Q. Transmisión de datos desde un   dispositivo al host. También señal data1 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                 |   |   |   |   |
+| SCLK          | Reloj de   serie. La señal oscilante generada por un host mantiene sincronizada la   transmisión de bits de datos.                                                                                                                                                                                                                                                                                                                           |   |   |   |   |
+| CS            | Selección   de chip. Permite a un host seleccionar dispositivos individuales conectados   al bus para enviar o recibir datos.                                                                                                                                                                                                                                                                                                                |   |   |   |   |
+| QUADWP        | Señal de   protección contra escritura. Se utiliza para transacciones de 4 bits   (qio/qout). También para la señal data2 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                 |   |   |   |   |
+| QUADHD        | Señal de   espera. Se utiliza para transacciones de 4 bits (qio/qout). También para la   señal data3 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                                      |   |   |   |   |
+| DATA4         | Señal   Data4 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                                                                                                                             |   |   |   |   |
+| DATA5         | Señal   Data5 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                                                                                                                             |   |   |   |   |
+| DATA6         | Señal   Data6 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                                                                                                                             |   |   |   |   |
+| DATA7         | Señal   Data7 en modo Octal/OPI.                                                                                                                                                                                                                                                                                                                                                                                                             |   |   |   |   |
+| Assertion     | La acción   de activar una línea.                                                                                                                                                                                                                                                                                                                                                                                                            |   |   |   |   |
+| De-assertion  | La acción   de devolver la línea al estado inactivo (de nuevo a inactivo).                                                                                                                                                                                                                                                                                                                                                                   |   |   |   |   |
+| Transaction   | Una   instancia de un host que afirma una línea CS, transfiere datos hacia y desde   un dispositivo y anula la aserción de la línea CS. Las transacciones son   atómicas, lo que significa que nunca pueden ser interrumpidas por otra   transacción.                                                                                                                                                                                        |   |   |   |   |
+| Launch   Edge | Borde del   reloj en el que el registro de origen lanza la señal a la línea.                                                                                                                                                                                                                                                                                                                                                                 |   |   |   |   |
+| Latch   Edge  | Borde del   reloj en el que el registro de destino se engancha   en la señal.                                                                                                                                                                                                                                                                                                                                                                |   |   |   |   |
+
+
+
+**Modos de operación**
+
+
+
+|  Mode name  | Command Line   Width | Address Line   Width | Data Line Width |               Transaction   Flag              |  Bus IO Setting   Flag |
+|:-----------:|:--------------------:|:--------------------:|:---------------:|:---------------------------------------------:|:----------------------:|
+| Normal SPI  | 1                    | 1                    | 1               | 0                                             | 0                      |
+| Dual Output | 1                    | 1                    | 2               | SPI_TRANS_MODE_DIO                            | SPICOMMON_BUSFLAG_DUAL |
+| Dual I/O    | 1                    | 2                    | 2               | SPI_TRANS_MODE_DIO   SPI_TRANS_MULTILINE_ADDR | SPICOMMON_BUSFLAG_DUAL |
+| Quad Output | 1                    | 1                    | 4               | SPI_TRANS_MODE_QIO                            | SPICOMMON_BUSFLAG_QUAD |
+| Quad I/O    | 1                    | 4                    | 4               | SPI_TRANS_MODE_QIO   SPI_TRANS_MULTILINE_ADDR | SPICOMMON_BUSFLAG_QUAD |
+|             |                      |                      |                 |                                               |                        |
+|             |                      |                      |                 |                                               |                        |
+|             |                      |                      |                 |                                               |                        |
 
 
 ## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi)
