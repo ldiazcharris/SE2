@@ -329,18 +329,15 @@ Esta es una señal "opcional". La señal Write-Protect (WP) permitirá operacion
 
 **Modos de operación**
 
+| Mode name | Command Line Width | Address Line Width | Data Line Width | Transaction Flag | Bus IO Setting Flag |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Normal SPI | 1 | 1 | 1 | 0 | 0 |
+| Dual Output | 1 | 1 | 2 | SPI_TRANS_MODE_DIO | SPICOMMON_BUSFLAG_DUAL |
+| Dual I/O | 1 | 2 | 2 | SPI_TRANS_MODE_DIO   SPI_TRANS_MULTILINE_ADDR | SPICOMMON_BUSFLAG_DUAL |
+| Quad Output | 1 | 1 | 4 | SPI_TRANS_MODE_QIO | SPICOMMON_BUSFLAG_QUAD |
+| Quad I/O | 1 | 4 | 4 | SPI_TRANS_MODE_QIO   SPI_TRANS_MULTILINE_ADDR | SPICOMMON_BUSFLAG_QUAD |
 
 
-|  Mode name  | Command Line   Width | Address Line   Width | Data Line Width |               Transaction   Flag              |  Bus IO Setting   Flag |
-|:-----------:|:--------------------:|:--------------------:|:---------------:|:---------------------------------------------:|:----------------------:|
-| Normal SPI  | 1                    | 1                    | 1               | 0                                             | 0                      |
-| Dual Output | 1                    | 1                    | 2               | SPI_TRANS_MODE_DIO                            | SPICOMMON_BUSFLAG_DUAL |
-| Dual I/O    | 1                    | 2                    | 2               | SPI_TRANS_MODE_DIO   SPI_TRANS_MULTILINE_ADDR | SPICOMMON_BUSFLAG_DUAL |
-| Quad Output | 1                    | 1                    | 4               | SPI_TRANS_MODE_QIO                            | SPICOMMON_BUSFLAG_QUAD |
-| Quad I/O    | 1                    | 4                    | 4               | SPI_TRANS_MODE_QIO   SPI_TRANS_MULTILINE_ADDR | SPICOMMON_BUSFLAG_QUAD |
-|             |                      |                      |                 |                                               |                        |
-|             |                      |                      |                 |                                               |                        |
-|             |                      |                      |                 |                                               |                        |
 
 
 ## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi)
