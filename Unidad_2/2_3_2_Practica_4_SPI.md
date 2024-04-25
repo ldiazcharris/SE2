@@ -65,17 +65,20 @@ void app_main(void)
         .sclk_io_num = CLK_PIN,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
-        .max_transfer_sz = 32
     };
 
     spi_device_interface_config_t device_config={
         .mode = 0,                            //Polaridad y fase del reloj
         .clock_speed_hz = 1000000,           //Velocidad del reloj
+        .duty_cycle_pos = 128,              // 50% duty cycle
         .spics_io_num = CS_PIN,           //Pin de selección de chip
-        .queue_size = 7,                      //Número de transacciones en la cola de SPI
-        .flags = SPI_DEVICE_HALFDUPLEX,    // Modo de comunicación Halfduplex
+        .queue_size = 3,                      //Número de transacciones en la cola de SPI
+        .cs_ena_posttrans = 3,              // Keep the CS low 3 cycles after transaction
         .pre_cb = NULL,
-        .post_cb = NULL
+        .post_cb = NULL,
+        .command_bits = 0,
+        .address_bits = 0,
+        .dummy_bits = 0
     };
 
     //Configurar bus SPI
@@ -86,25 +89,20 @@ void app_main(void)
 
     //Enviar y recibir datos
     uint8_t tx_data[] = {'H', 'O', 'L', 'A'};
-    uint8_t rx_data[3];
-
-    spi_transaction_t trans = {
-        .length = 8 * sizeof(tx_data),
-        .tx_buffer = tx_data,
-        .rx_buffer = NULL,
-    };
-
-    spi_device_polling_transmit(spi, &trans); //Enviar datos
-
 
     while (1)
     {
-        spi_device_polling_transmit(spi, &trans);
+
+        spi_transaction_t trans = {
+            .length = 8 * sizeof(tx_data),
+            .tx_buffer = tx_data,
+            .rx_buffer = NULL
+        };
+
+        spi_device_transmit(spi, &trans);
         printf("Was sent %s\n", tx_data);
         delay(2000);
     }
-    
-
 }
 
 ~~~
@@ -119,7 +117,7 @@ void app_main(void)
 
 #include <stdio.h>
 #include "driver/spi_slave.h"
-#include "esp_log.h"
+
 #include "utilities.h"
 
 // Definir los pines de SPI
@@ -127,21 +125,14 @@ void app_main(void)
 #define MOSI_PIN 23
 #define CLK_PIN  19
 #define CS_PIN   22
-#define TAG "SPI_Slave"
+
 
 // Buffer para recibir datos
-#define BUF_SIZE (1024)
+#define BUF_SIZE (128)
 
 void app_main(void)
 {
     esp_err_t ret;
-
-    spi_slave_interface_config_t slave_config = {
-        .mode = 0,                              // Polaridad y fase del reloj
-        .spics_io_num = CS_PIN,             // Pin de selección de chip
-        .queue_size = 3,                        // Tamaño de la cola de transacciones
-        .flags = 0,                             // Bandera de configuración adicional
-    };
 
     spi_bus_config_t bus_config={
         .miso_io_num = MISO_PIN,
@@ -149,41 +140,53 @@ void app_main(void)
         .sclk_io_num = CLK_PIN,
         .quadwp_io_num = -1,
         .quadhd_io_num = -1,
-        .max_transfer_sz = 32
     };
 
-    ret = spi_slave_initialize(HSPI_HOST, &bus_config, &slave_config, SPI_DMA_DISABLED); //SPI_DMA_CH1
+    spi_slave_interface_config_t slave_config = {
+        .mode = 0,                              // Polaridad y fase del reloj
+        .spics_io_num = CS_PIN,             // Pin de selección de chip
+        .queue_size = 10,                        // Tamaño de la cola de transacciones
+        .flags = 0,                             // Bandera de configuración adicional
+    };
+
+    ret = spi_slave_initialize(HSPI_HOST, &bus_config, &slave_config, SPI_DMA_CH_AUTO); //SPI_DMA_CH1
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "Error initializing SPI slave. Code: %d", ret);
+        printf("Error initializing SPI slave. Code: %d", ret);
         return;
     }
 
-    //uint8_t hola_mundo[] = {'H', 'o', 'l', 'a', 'M', 'u', 'n', 'd', 'o'};
-
     uint8_t rx_buf[BUF_SIZE];
-	
-	spi_slave_transaction_t transaction = {
-        .length = BUF_SIZE,
-        .rx_buffer = rx_buf,
-        .tx_buffer = NULL,
-    };
+    esp_err_t size_;
+    int size;
 
+    bzero(rx_buf, sizeof(rx_buf));
+    
     while (1) {
 
-        int size = spi_slave_transmit(HSPI_HOST, &transaction, portMAX_DELAY);
-        if (size < 0) {
-            ESP_LOGE(TAG, "Error receiving data. Code: %d", size);
-            continue;
-        }
+        printf("While...");
 
-        // Procesar los datos recibidos
-        for (int i = 0; i < size; i++) {
-            printf("Received: 0x%c\n", rx_buf[i]);
+        spi_slave_transaction_t transaction = {
+            .length = BUF_SIZE*8,
+            .rx_buffer = rx_buf,
+            .tx_buffer = NULL,
+        };
+        
+        size_ = spi_slave_transmit(HSPI_HOST, &transaction, portMAX_DELAY);
+        
+        if (ESP_OK != size_) {
+            printf("Error receiving data. Code: %d", size_);            
         }
+        else{
+            
+            printf("Received: %s\n", rx_buf);
+            bzero(rx_buf, sizeof(rx_buf));
+        }
+        
         printf("\n");
         delay(2000);
     }
 }
+
 
 ~~~
 
