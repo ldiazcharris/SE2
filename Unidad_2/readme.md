@@ -340,7 +340,237 @@ Esta es una señal "opcional". La señal Write-Protect (WP) permitirá operacion
 
 
 
-## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi)
+## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y Wifi)
+
+### 2.4.1. Bluetooth
+
+Bluetooth® es una tecnología y un estándar de comunicación inalámbrica de corto alcance o para área personal (WPAN, Wireless Personal Area Network). Permite que dos dispositivos se conecten directamente sin requerir una infraestructura de red compatible, como un enrutador inalámbrico o un punto de acceso. Hoy en día, la tecnología Bluetooth es más utilizada por personas de todo el mundo para conectar dispositivos como auriculares inalámbricos, teclados, ratones y altavoces a PC y dispositivos móviles [[7], [8], [9]](#referencias).
+
+Bluetooth permite la transmisión de voz y datos entre diferentes dispositivos mediante un enlace por radiofrecuencia en la banda ISM (Industrial, Science and Medical Band) de los 2.4 GHz. Esta tecnología se elevó a estándar por el IEEE, con la denominación 802.15.1 en el año 2002. 
+
+Las principales ventajas de Bluetooth son:
+
+- Robustez.
+- Bajo consumo.
+- Bajo costo. 
+
+El sistema Bluetooth puede dividirse en dos categorías diferentes: 
+
+- **Bluetooth clásico**
+	Conocida como *Bluetooth Basic Rate/Enhanced Data Rate* (BR/EDR), es una radio de baja potencia que transmite datos a través de 79 canales en la banda ISM sin licencia de 2,4 GHz. Compatible con la comunicación punto a punto entre dispositivos [[7]](#referencias). 
+	
+	Bluetooth Classic se utiliza principalmente para permitir la transmisión inalámbrica de audio y se ha convertido en el protocolo de radio estándar detrás de los altavoces inalámbricos, auriculares y sistemas de entretenimiento en el automóvil. La radio Bluetooth Classic también permite aplicaciones de transferencia de datos como mobile printing [[7]](#referencias).
+
+
+- **Bluetooth Low Energy (BLE)**
+	Está diseñada para un funcionamiento de muy bajo consumo. Transmite datos a través de 40 canales en la banda ISM sin licencia de 2,4 GHz. 
+	
+	Admite múltiples topologías de comunicación: *point-to-point*, *broadcast* y *mesh*. Aunque inicialmente era conocida por sus capacidades de comunicación entre dispositivos, BLE también se utiliza ahora como tecnología de posicionamiento de dispositivos en interiores. Además, incluye funciones para determinar la presencia, distancia y dirección de otro dispositivo [[7]](#referencias).
+	
+**Tabla comparativa: Bluetooth Calssic Vs Bluetooth LE**
+	
+|  | Bluetooth Low Energy (LE) | Bluetooth Classic |
+|---|---|---|
+| Frequency Band | 2.4GHz   ISM Band (2.402 – 2.480 GHz Utilized) | 2.4GHz   ISM Band (2.402 – 2.480 GHz Utilized) |
+| Channels | 40 channels with 2 MHz spacing      (3 advertising channels/37 data channels) | 79   channels with 1 MHz spacing |
+|  |  |  |
+| Channel Usage | Frequency-Hopping   Spread Spectrum (FHSS) | Frequency-Hopping   Spread Spectrum (FHSS) |
+| Modulation | GFSK | GFSK,   π/4 DQPSK, 8DPSK |
+| Data Rate | LE 2M PHY: 2 Mb/s      LE 1M PHY: 1 Mb/s      LE Coded PHY (S=2): 500 Kb/s      LE Coded PHY (S=8): 125 Kb/s | BR PHY (GFSK): 1 Mb/s      EDR PHY (π/4 DQPSK): 2 Mb/s      EDR PHY (8DPSK): 3 Mb/s |
+| Tx Power* | ≤   100 mW (+20 dBm) | ≤   100 mW (+20 dBm) |
+| Rx Sensitivity | LE 2M PHY: ≤-70 dBm      LE 1M PHY: ≤-70 dBm      LE Coded PHY (S=2): ≤-75 dBm      LE Coded PHY (S=8): ≤-82 dBm | ≤-70   dBm |
+| Data Transports | Asynchronous Connection-oriented      Isochronous Connection-oriented      Asynchronous Connectionless      Synchronous Connectionless      Isochronous Connectionless | Asynchronous Connection-oriented      Synchronous Connection-oriented |
+| Communication Topologies | Point-to-Point (including   piconet)      Broadcast      Mesh | Point-to-Point   (including piconet) |
+| Positioning Features | Presence: Advertising      Direction: Direction Finding (AoA/AoD)      Distance: RSSI, HADM (Coming) | None |
+
+**Overview**
+
+<img src="imagenes/2_4_1_Bluetooth_Technology_Overview_Graphic.png" width="800">
+
+
+**Bluetooth en la ESP32**
+
+ESP32 implementa el stack Bluetooth de Android. Admite Bluetooth de modo dual, lo que significa que tanto Bluetooth clásico como Bluetooth LE son compatibles con ESP32 [[9]](#referencias).
+
+El *stack* del protocolo Bluetooth en ESP32 puede dividirse en dos partes: un "Controller Stack" y un "Host Stack" [[9]](#referencias). 
+
+El *stack* del controlador contiene el Physical Layer (PHY), Baseband, Link Controller, Link Manager, Device Manager, Host Controller Interface (HCI) y otros módulos, y se utiliza para la gestión de la interfaz de hardware y la gestión de enlaces [[9]](#referencias). 
+
+El *stack* del host contiene L2CAP, SMP, SDP, ATT, GATT (Generic Attribute), GAP (Generic Access Profile) y varios perfiles, y funciona como interfaz para la capa de aplicación, facilitando así a ésta el acceso al sistema Bluetooth. El Host Bluetooth puede implementarse en el mismo dispositivo que el Controlador, o en dispositivos diferentes. ESP32 admite ambos enfoques. A continuación, se describen las estructuras típicas de aplicación:
+
+<img src="imagenes/2_4_1_Architecture_Bluetooth_host_and_controller.png" width="700">
+
+Tomado de: [[9]](#referencias)
+
+	**Nota: BlueDroid** es la implementación del stack Bluetooth de Android utilizada por terceros cuando desean utilizar el soporte Bluetooth nativo de Android.
+
+1. **Escenario 1 (Configuración ESP-IDF por defecto):** Se selecciona BLUEDROID como Host Bluetooth y se utiliza VHCI (interfaz HCI virtual implementada por software) para la comunicación entre el Host Bluetooth y el Controlador. En este escenario, tanto el BLUEDROID como el Controlador se implementan en el mismo dispositivo (es decir, el ESP32), eliminando la necesidad de un PC adicional u otros dispositivos host que ejecuten el Host Bluetooth [[9]](#referencias).
+
+2. **Escenario 2:** El sistema ESP32 se utiliza sólo como un controlador Bluetooth (módulo de hardware separado), para un dispositivo adicional Bluetooth (como un PC Linux con BlueZ o un dispositivo Android con un dispositivo Android con BLUEDROID, etc). En este caso, el controlador y el host implementados en dispositivos diferentes, lo que es bastante similar al caso de los teléfonos móviles, PADs o PCs [[9]](#referencias).
+
+3. **Escenario 3:** Este escenario es similar al escenario 2. La diferencia radica en que, en la prueba del controlador BQB (Bluetooth Qualification Body Radio Frequency Test, u otras certificaciones) el ESP32 se puede probar conectándolo a las herramientas de prueba, con la UART habilitada como interfaz IO [[9]](#referencias).
+
+	**Nota:** *La certificación Bluetooth® de un producto demuestra que dicho producto cumple todas las especificaciones de la tecnología Bluetooth® y es capaz de establecer conexiones adecuadas con otros dispositivos habilitados para Bluetooth® [[7]](#referencias).*
+
+
+El controlador del protocolo es invisible para las aplicaciones de usuario y se ocupa de las capas inferiores del *stack* BLE. La configuración del controlador incluye establecer:
+
+- El tamaño del stack del controlador BT.
+- La prioridad.
+- La velocidad de transmisión HCI.
+
+<img src="imagenes/2_4_1_Bluedroid_ESP32_components.png" width="600">
+
+### Bluetooth LE GAP APIs
+
+El GAP (perfil de acceso genérico) define el proceso de descubrimiento, la gestión de dispositivos y el establecimiento de una conexión entre dispositivos Bluetooth LE. y el establecimiento de la conexión entre dispositivos Bluetooth LE [[9]](#referencias).
+
+El Bluetooth LE GAP se implementa en forma de llamadas a la API y devoluciones de eventos. El resultado del procesamiento de las llamadas API en la pila del protocolo se devuelve mediante Eventos. Cuando un dispositivo inicia una solicitud, el estado de dicho dispositivo también se devuelve mediante un evento. 
+Hay cuatro roles GAP definidos para un dispositivo Bluetooth LE:
+
+- **Broadcaster**: Un broadcaster es un dispositivo que envía paquetes de publicidad (advertising packets), para que pueda ser descubierto por los observadores. Este dispositivo sólo puede anunciarse, pero no puede conectarse.
+
+- **Observer**: Un observador es un dispositivo que escanea broadcasters y envía esta información a una aplicación. Este dispositivo sólo puede enviar solicitudes de exploración, pero no puede conectarse.
+
+- **Peripheral**: Un periférico es un dispositivo que se anuncia mediante *connectable advertising packets* y se convierte en esclavo una vez que se conecta.
+
+- **Central**: Una central es un dispositivo que inicia las conexiones con los periféricos y se convierte en maestro una vez que se establece un enlace físico.
+
+**Estados del GAP**
+
+<img src="imagenes/2_4_1_estados_del_rol_GAP.png" width="600">
+
+
+**Procedimiento de broadcast**
+
+
+
+Se definen cinco modos para las emisiones Bluetooth LE:
+
+1. **Connectable Scannable Undirected mode:** En este modo, un dispositivo puede ser descubierto por y conectado a cualquier dispositivo. La escaneabilidad indica que el dispositivo local debe responder con una respuesta de escaneo cuando otro dispositivo envía una solicitud de escaneo.
+
+2. **High Duty Cycle Directed mode y Connectable Low Duty Cycle Directed mode:** En estos modos, las difusiones dirigidas IP sólo pueden ser descubiertas por los dispositivos designados y conectarse a ellos. El paquete de "broadcast dirigido de alto ciclo de trabajo" incluye 6 bytes de la dirección del dispositivo de difusión y 6 bytes de la dirección del dispositivo receptor. En este modo, se ignoran los parámetros de difusión adv_int_min y adv_int_max.
+
+En el modo Conectable de bajo ciclo de trabajo dirigido, los parámetros de difusión adv_int_min y adv_int_max deben ser superiores a 100 ms (0xA0).
+
+3. **Scannable Undirected mode:** En este modo un dispositivo puede ser descubierto por cualquier otro dispositivo, pero no puede conectarse a él. Un paquete Scannable Undirected incluye 6 bytes de una dirección de difusión y 0~31 bytes de los datos del paquete de difusión, que es la misma que en el paquete Scannable Undirected Conectable. 
+
+4. **Nonconnectable Undirected mode:** En este modo, un dispositivo puede ser descubierto por cualquier dispositivo, pero no puede ser escaneado ni conectado a ningún dispositivo. Un dispositivo no-escaneable es aquel que no responderá con una respuesta de escaneo, cuando un dispositivo par envía una solicitud de escaneo. No-conectable significa que no puede conectarse a ningún dispositivo.
+El paquete incluye 6 bytes de dirección de difusión y 0~31 bytes de datos del paquete de difusión. En este modo, un dispositivo puede ser descubierto pero no puede ser escaneado ni conectado por otros dispositivos.
+
+
+### Modelo Cliente-Servidor
+
+El dispositivo que contiene los datos (es decir, los atributos) se define como servidor, y el dispositivo que obtiene los datos del servidor se define como cliente. A continuación se enumeran las operaciones comunes entre un servidor y un cliente:
+
+- Un cliente envía datos a un servidor escribiendo datos en el servidor. Tanto la solicitud de escritura como el comando de escritura pueden utilizarse para escribir un valor de atributo. Sin embargo, sólo se solicita una respuesta de escritura cuando se utiliza una solicitud de escritura.
+
+- Un servidor envía datos a un cliente enviándole una Indicación o Notificación. La única diferencia entre una indicación y una notificación es que la confirmación sólo se solicita cuando se utiliza una indicación. Esto es similar a la diferencia entre una solicitud de escritura y un comando de escritura.
+
+<img src="imagenes/2_4_1_Client_server_relation.png" width="500">
+
+### Aplicación Genérica de Bluetooth con ESP32 
+
+Para crear una aplicación de Bluetooth con ESP32 se deben seguir los siguientes pasos: 
+
+***Nota:*** los siguientes pasos están adaptados para su uso en Platformio con ESP-IDF.
+
+1. Crear un proyecto en Platformio con ESP-IDF. 
+
+2. Configurar el entorno de desarrollo Platformio con ESP-IDF para habilitar el controlador Bluetooth en los archivos de compilación del proyecto. Se debe abrir el archivo `sdkconfig.*` que se crea automáticamente con el proyecto y se encuentra la raiz de los archivos de la carpeta del proyecto. 
+
+<img src="imagenes/2_4_1_sdkconfig_file.png" width="400">
+
+En este archivo debe buscar la sección `# Bluetooth` y escribir debajo de ella lo siguiente:
+
+~~~
+CONFIG_BT_ENABLED=y
+CONFIG_BT_BLUEDROID_ENABLED=y
+CONFIG_BT_CONTROLLER_ENABLED=y
+~~~
+
+Guarde y cierre el archivo. 
+
+3. Iniciar la codificación de la aplicación de acuerdo con la documentación de Espressif. Existen dos tipos de aplicación dependiendo del tipo de dispositivo a configurar: Cliente y Servidor. 
+
+4. **Para el dispositivo cliente**
+
+4.1. En el lado del cliente, se debe escribir el código que se encargue de conectarse al servidor BLE (otro ESP32), descubrir sus servicios y características, para realizar operaciones de lectura o escritura.
+
+4.2. Implementa las funciones de manejo de eventos BLE para manejar la conexión, desconexión, escritura de características.
+
+5. **Para el dispositivo servidor**
+
+5.1. En el lado del servidor, implementa el código para ofertar las características del dispositivo.
+
+5.2. En el lado del servidor, implementa el código para procesar las solicitudes del cliente.
+
+Los manejadores de eventos GAP y GATT son las funciones utilizadas para capturar los eventos generados por stack BLE y ejecutar funciones para configurar parámetros de la aplicación. Además, los manejadores de eventos también se utilizan para manejar eventos de lectura y escritura procedentes de la central. 
+
+En ambos casos, en el ESP32 se deben implementar dos configuraciones importantes: 
+
+El **manejador de eventos GAP** se encarga de escanear y conectarse a los servidores.
+
+El **manejador de eventos GATT** gestiona los eventos que ocurren después de que el cliente se haya conectado a un servidor, como la búsqueda de servicios y la escritura y lectura de datos. 
+
+Los manejadores de eventos GAP y GATT se registran utilizando:
+
+~~~C
+esp_ble_gap_register_callback();
+esp_ble_gattc_register_callback();
+~~~
+
+### Cliente GATT 
+
+Abra en una nueva pestaña el siguiente enlace: [Ejemplo GATT Client](Unidad_2/GATT_BLE/GATT_Client_Example_ESP32).
+
+En este ejemplo, la función principal también inicializa el controlador BT creando primero una estructura de configuración del controlador BT llamada esp_bt_controller_config_t con la configuración por defecto generada por la macro BT_CONTROLLER_INIT_CONFIG_DEFAULT(). El controlador BT implementa la Host Controller Interface (HCI) en el lado del controlador, la Link Layer (LL) y la Physical Layer (PHY). El controlador BT es invisible para las aplicaciones de usuario y se ocupa de las capas inferiores de la pila BLE. La configuración del controlador incluye establecer el tamaño de la pila del controlador BT, la prioridad y la tasa de baudios HCI. Con la configuración creada, el controlador BT se inicializa y habilita con la función esp_bt_controller_init():
+
+Modos Bluetooth soportados: 
+
+There are four Bluetooth modes supported:
+
+`ESP_BT_MODE_IDLE`: Bluetooth not running
+`ESP_BT_MODE_BLE`: BLE mode
+`ESP_BT_MODE_CLASSIC_BT`: BT Classic mode
+`ESP_BT_MODE_BTDM`: Dual mode (BLE + BT Classic)
+
+MTU: Maximum transmission unit
+
+Por defecto, el tamaño de MTU en ESP32 Bluetooth LE es 23 bytes, y puede ser configurado hasta 517 bytes.
+
+### Application Profiles
+
+Los Perfiles de Aplicación son una forma de agrupar funcionalidades que están diseñadas para una o más aplicaciones del servidor. Por ejemplo, puede tener un Perfil de Aplicación conectado a los Sensores de Frecuencia Cardíaca, y otro conectado a los Sensores de Temperatura. Cada Perfil de Aplicación crea una interfaz GATT para conectarse a otros dispositivos. Los Perfiles de Aplicación en el código son instancias de la estructura gattc_profile_inst, que se define como:
+
+~~~C
+struct gattc_profile_inst {
+    esp_gattc_cb_t gattc_cb;
+    uint16_t gattc_if;
+    uint16_t app_id;
+    uint16_t conn_id;
+    uint16_t service_start_handle;
+    uint16_t service_end_handle;
+    uint16_t char_handle;
+    esp_bd_addr_t remote_bda;
+};
+~~~
+
+
+gattc_cb: GATT client callback function
+gattc_if: GATT client interface number for this profile
+app_id: Application Profile ID number
+conn_id: Connection ID
+service_start_handle: Service start handle
+service_end_handle: Service end handle
+char_handle: Char handle
+remote_bda: Remote device address connected to this client.
+
+
+
+### Wifi
+
+
 
 
 ## 2.5. Prototipo funcional del proyecto de aula
@@ -358,3 +588,7 @@ Esta es una señal "opcional". La señal Write-Protect (WP) permitirá operacion
 - [4] http://arantxa.ii.uam.es/~gdrivera/labetcii/docs/I2C_alcala.pdf 
 - [5] https://www.ti.com/lit/an/slva704/slva704.pdf?ts=1712031173602&ref_url=https%253A%252F%252Fwww.google.com%252F 
 - [6] https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/i2c.html
+- [7] https://www.bluetooth.com/learn-about-bluetooth/tech-overview/
+- [8] https://www.intel.com/content/www/us/en/products/docs/wireless/what-is-bluetooth.html
+- [9] Espressif Systems. ESP32 Bluetooth Architecture V1.2. Copyright © 2024. 
+
