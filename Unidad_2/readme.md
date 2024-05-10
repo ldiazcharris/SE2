@@ -344,7 +344,7 @@ Esta es una señal "opcional". La señal Write-Protect (WP) permitirá operacion
 
 ### 2.4.1. Bluetooth
 
-Bluetooth® es una tecnología y un estándar de comunicación inalámbrica de corto alcance o para área personal (WPAN, Wireless Personal Area Network). Permite que dos dispositivos se conecten directamente sin requerir una infraestructura de red compatible, como un enrutador inalámbrico o un punto de acceso. Hoy en día, la tecnología Bluetooth es más utilizada por personas de todo el mundo para conectar dispositivos como auriculares inalámbricos, teclados, ratones y altavoces a PC y dispositivos móviles [[7], [8], [9]](#referencias).
+Bluetooth® es una tecnología y un estándar de comunicación inalámbrica de corto alcance o de área personal (WPAN, Wireless Personal Area Network). Permite que dos dispositivos se conecten directamente sin requerir una infraestructura de red compatible, como un enrutador inalámbrico o un punto de acceso. Hoy en día, la tecnología Bluetooth es más utilizada por personas de todo el mundo para conectar dispositivos como auriculares inalámbricos, teclados, ratones y altavoces a PC y dispositivos móviles [[7], [8], [9]](#referencias).
 
 Bluetooth permite la transmisión de voz y datos entre diferentes dispositivos mediante un enlace por radiofrecuencia en la banda ISM (Industrial, Science and Medical Band) de los 2.4 GHz. Esta tecnología se elevó a estándar por el IEEE, con la denominación 802.15.1 en el año 2002. 
 
@@ -568,9 +568,115 @@ remote_bda: Remote device address connected to this client.
 
 
 
-### Wifi
+### 2.4.2. Wifi
+
+Wi-Fi, abreviatura de "Wireless Fidelity", es una tecnología de comunicación inalámbrica que permite la conexión de dispositivos a una red local (LAN) sin necesidad de cables físicos.
+
+Wi-Fi se basa en una serie de especificaciones técnicas desarrolladas por el **Instituto de Ingenieros Eléctricos y Electrónicos (IEEE)**, que define el estándar más común el 802.11. Este estándar ha tenido múltiples revisiones a lo largo del tiempo para mejorar la velocidad, el alcance y la seguridad de la conexión inalámbrica.
+
+La estructura básica de una red Wi-Fi consiste en un punto de acceso (access point) que actúa como un puente entre los dispositivos inalámbricos y la red cableada, como un router, y los dispositivos finales que se conectan a través de este punto de acceso, como teléfonos inteligentes, computadoras portátiles, tabletas, etc.
+
+<img src="imagenes/2_4_2_conexion_wifi.png" width="500">
+
+*Fuente: [[10]](#referencias)*
+
+En cuanto a las capas OSI, el Wi-Fi implementa las capas física (Capa 1) y de enlace de datos (Capa 2). La capa física se encarga de la transmisión y recepción de las señales de radio, mientras que la capa de enlace de datos se encarga de la segmentación de los datos en tramas, el control de acceso al medio y la detección de errores.
+
+<img src="imagenes/2_4_2_OSI_Model.gif" width="500"> 
+
+*Fuente: [[11]](#referencias)*
+
+Con Wi-Fi se pueden crear diferentes tipos de redes, como redes domésticas, empresariales, públicas (como las ofrecidas en cafeterías, aeropuertos, etc.), y redes de área metropolitana inalámbricas (WMAN) o redes de área amplia inalámbricas (WWAN), que tienen un alcance mayor.
+
+**El alcance máximo de una red Wi-Fi** depende de varios factores, como la potencia de transmisión del punto de acceso, la presencia de obstáculos físicos, la interferencia de otras redes inalámbricas y dispositivos eléctricos, entre otros. Por lo general, en condiciones ideales, el alcance máximo puede ser de varios cientos de metros.
+
+En cuanto a las características técnicas del protocolo de comunicación Wi-Fi, algunas de las más importantes incluyen:
+
+- **Velocidad de transmisión:** Varía según el estándar Wi-Fi utilizado:
+| Protocolo | Frecuencia | Velocidad de datos máxima   (en teoría) |
+|---|---|---|
+| 802.11ax | 2,4 o 5 GHz | 2,4 Gbps1 |
+| 802.11ac wave2 | 5 GHz | 1,73 Gbps2 |
+| 802.11ac wave1 | 5 GHz | 866,7 Mbps2 |
+| 802.11n | 2,4 o 5 GHz | 450 Mbps3 |
+
+*Fuente: tomado de [[12]](#referencias)*
+	
+- **Ancho de banda:** La cantidad de espectro de radio disponible para la transmisión de datos.
+- **Frecuencia de operación:** Puede ser en la banda de 2.4 GHz y/o en la banda de 5 GHz, dependiendo del estándar y de la configuración de la red.
+- **Seguridad:** Incluye protocolos de cifrado como WEP, WPA, y WPA2 para proteger la privacidad y seguridad de la red inalámbrica.
+- **Calidad de servicio (QoS):** Permite priorizar ciertos tipos de tráfico de red para garantizar un rendimiento óptimo para aplicaciones sensibles al retraso, como la voz sobre IP (VoIP) o el streaming de video.
+
+### Wifi en la ESP32
+
+### Controlador wifi en la ESP32
+
+- Soporte para redes Wi-Fi: El controlador Wi-Fi de la ESP32 es compatible con redes Wi-Fi 802.11 b/g/n, lo que significa que puede conectarse a una variedad de redes Wi-Fi domésticas, empresariales y públicas.
+
+- Funcionalidad de estación y punto de acceso: La ESP32 puede actuar tanto como estación Wi-Fi, conectándose a una red existente, como punto de acceso Wi-Fi, creando su propia red a la que otros dispositivos pueden conectarse.
+
+- Seguridad: Ofrece soporte para diferentes protocolos de seguridad Wi-Fi, incluyendo WEP, WPA/WPA2, y WPA3, lo que garantiza la seguridad de las comunicaciones inalámbricas.
+
+- Modos de bajo consumo de energía: El controlador Wi-Fi de la ESP32 está diseñado para ser eficiente en cuanto a consumo de energía, lo que permite su uso en proyectos alimentados por batería o energía solar.
+
+- API de programación: Se proporciona una API de programación completa para controlar y configurar el controlador Wi-Fi de la ESP32 desde el código del usuario, lo que facilita la integración de la funcionalidad Wi-Fi en proyectos.
+
+- Soporte para funciones avanzadas: Además de la conectividad básica a redes Wi-Fi, el controlador Wi-Fi de la ESP32 también soporta funciones avanzadas como la configuración de direcciones IP estáticas o dinámicas, el escaneo de redes disponibles, y la gestión de conexiones concurrentes.
+
+### ESP-NOW
+
+ESP-NOW es un tipo de protocolo de comunicación Wi-Fi sin conexión definido por Espressif. En ESP-NOW, los datos de la aplicación se encapsulan en un marco de acción específico del proveedor y, a continuación, se transmiten de un dispositivo Wi-Fi a otro sin conexión *[[13]](#referencias)*.
+
+CTR con protocolo CBC-MAC (CCMP) se utiliza para proteger el marco de acción para la seguridad. ESP-NOW es ampliamente utilizado en luz inteligente, control remoto, sensores, etc *[[13]](#referencias)*.
+
+ESP-NOW utiliza un marco de acción específico del proveedor para transmitir datos de ESP-NOW. La velocidad de bits predeterminada de ESP-NOW es de 1 Mbps. El formato del marco de acción específico del proveedor es el siguiente *[[13]](#referencias)*:	
+
+~~~
+------------------------------------------------------------------------------------------------------------
+| MAC Header | Category Code | Organization Identifier | Random Values | Vendor Specific Content |   FCS   |
+------------------------------------------------------------------------------------------------------------
+  24 bytes         1 byte              3 bytes               4 bytes             7-257 bytes        4 bytes
+~~~
+
+Código de categoría: El campo Código de categoría se establece en el valor (127) que indica la categoría específica del proveedor *[[13]](#referencias)*.
+
+Identificador de la organización: El identificador de la organización contiene un identificador único (0x18fe34), que son los primeros tres bytes de la dirección MAC aplicada por Espressif *[[12]](#referencias)*.
+
+Valor aleatorio: El valor aleatorio archivado se utiliza para evitar ataques de retransmisión *[[13]](#referencias)*.
+
+Contenido específico del proveedor: El contenido específico del proveedor contiene campos específicos del proveedor de la siguiente manera *[[13]](#referencias)*:
 
 
+~~~
+-------------------------------------------------------------------------------
+| Element ID | Length | Organization Identifier | Type | Version |    Body    |
+-------------------------------------------------------------------------------
+    1 byte     1 byte            3 bytes         1 byte   1 byte   0-250 bytes
+~~~
+
+ID de elemento: El campo ID de elemento se establece en el valor (221), lo que indica el elemento específico del proveedor.
+
+Longitud: La longitud es la longitud total del identificador de la organización, el tipo, la versión y el cuerpo.
+
+Identificador de la organización: El identificador de la organización contiene un identificador único (0x18fe34), que son los primeros tres bytes de la dirección MAC aplicada por Espressif.
+
+Tipo: El campo Tipo se establece en el valor (4) que indica ESP-NOW.
+
+Versión: El campo Versión se establece en la versión de ESP-NOW.
+
+Cuerpo: El cuerpo contiene los datos de ESP-NOW.
+
+Como ESP-NOW no tiene conexión, el encabezado MAC es un poco diferente al de las tramas estándar. Los bits FromDS y ToDS del campo FrameControl son 0. El primer campo de dirección se establece en la dirección de destino. El segundo campo de dirección se establece en la dirección de origen. El tercer campo de dirección se establece en dirección de difusión (0xff:0xff:0xff:0xff:0xff:0xff).
+
+### Seguridad
+
+ESP-NOW utiliza el método CCMP, que se describe en la norma IEEE 802.11-2012, para proteger el marco de acción específico del proveedor. El dispositivo Wi-Fi mantiene una clave maestra principal (PMK) y varias claves maestras locales (LMK). Las longitudes de PMK y LMk son de 16 bytes *[[13]](#referencias)*.
+
+PMK se utiliza para cifrar LMK con el algoritmo AES-128. Si no se establece PMK, se utilizará un PMK predeterminado *[[13]](#referencias)*.
+
+LMK del dispositivo emparejado se utiliza para cifrar el marco de acción específico del proveedor con el método CCMP. El número máximo de LMK diferentes es seis. Si no se establece el LMK del dispositivo emparejado, el marco de acción específico del proveedor no se cifrará *[[13]](#referencias)*.
+
+No se admite el cifrado de marcos de acción específicos del proveedor de multidifusión *[[13]](#referencias)*.
 
 
 ## 2.5. Prototipo funcional del proyecto de aula
@@ -591,4 +697,7 @@ remote_bda: Remote device address connected to this client.
 - [7] https://www.bluetooth.com/learn-about-bluetooth/tech-overview/
 - [8] https://www.intel.com/content/www/us/en/products/docs/wireless/what-is-bluetooth.html
 - [9] Espressif Systems. ESP32 Bluetooth Architecture V1.2. Copyright © 2024. 
-
+- [10] https://www.conceptdraw.com/examples/wireless-router-network-diagram
+- [11] https://medium.com/@sreekanth.thummala/osi-model-7-layers-dataflow-example-b711dbca5eff
+- [12] https://www.intel.la/content/www/xl/es/support/articles/000005725/wireless/legacy-intel-wireless-products.html
+- [13] https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/network/esp_now.html

@@ -14,7 +14,6 @@ Mejorar la comprensión del funcionamiento del protocolo SPI.
 - 2 Placas de desarrollo basada en ESP32 (cualquiera que tenga a disposición). 
 - 1 Cable de programación.
 - 1 Protoboard.
-- 1 Display LCD 16x2.
 - 10 cables dupont macho-macho.
 
 ***Software***
@@ -39,156 +38,7 @@ Por favor, siga la siguiente metodología.
 	1. Transmitir desde una placa ESP32 (Master) a otra (Slave) a través del bus SPI, una trama de datos.
 	1. El ESP32 en modo Slave recibe a través del bus SPI e imprime por UART la trama de datos. 
 	
-**Este es el código para la ESP32 configurada como Master**
 
-~~~C
-// *************** Código para el MASTER*********************************** //
-
-#include <stdio.h>
-#include "driver/spi_master.h"
-#include "esp_log.h"
-#include "utilities.h"
-
-// Definir los pines de SPI
-#define MISO_PIN 25
-#define MOSI_PIN 23
-#define CLK_PIN  19
-#define CS_PIN   22
-
-void app_main(void)
-{
-    spi_device_handle_t spi;
-
-    spi_bus_config_t bus_config = {
-        .miso_io_num = MISO_PIN,
-        .mosi_io_num = MOSI_PIN,
-        .sclk_io_num = CLK_PIN,
-        .quadwp_io_num = -1,
-        .quadhd_io_num = -1,
-    };
-
-    spi_device_interface_config_t device_config={
-        .mode = 0,                            //Polaridad y fase del reloj
-        .clock_speed_hz = 1000000,           //Velocidad del reloj
-        .duty_cycle_pos = 128,              // 50% duty cycle
-        .spics_io_num = CS_PIN,           //Pin de selección de chip
-        .queue_size = 3,                      //Número de transacciones en la cola de SPI
-        .cs_ena_posttrans = 3,              // Keep the CS low 3 cycles after transaction
-        .pre_cb = NULL,
-        .post_cb = NULL,
-        .command_bits = 0,
-        .address_bits = 0,
-        .dummy_bits = 0
-    };
-
-    //Configurar bus SPI
-    spi_bus_initialize(HSPI_HOST, &bus_config, 1);
-
-    //Agregar dispositivos SPI al bus
-    spi_bus_add_device(HSPI_HOST, &device_config, &spi);
-
-    //Enviar y recibir datos
-    uint8_t tx_data[] = {'H', 'O', 'L', 'A'};
-
-    while (1)
-    {
-
-        spi_transaction_t trans = {
-            .length = 8 * sizeof(tx_data),
-            .tx_buffer = tx_data,
-            .rx_buffer = NULL
-        };
-
-        spi_device_transmit(spi, &trans);
-        printf("Was sent %s\n", tx_data);
-        delay(2000);
-    }
-}
-
-~~~
-
-
-
-
-**Este es el código para la ESP32 configurada como Slave**
-
-~~~C
-// *************** Código para el SLAVE*********************************** //
-
-#include <stdio.h>
-#include "driver/spi_slave.h"
-
-#include "utilities.h"
-
-// Definir los pines de SPI
-#define MISO_PIN 25
-#define MOSI_PIN 23
-#define CLK_PIN  19
-#define CS_PIN   22
-
-
-// Buffer para recibir datos
-#define BUF_SIZE (128)
-
-void app_main(void)
-{
-    esp_err_t ret;
-
-    spi_bus_config_t bus_config={
-        .miso_io_num = MISO_PIN,
-        .mosi_io_num = MOSI_PIN,
-        .sclk_io_num = CLK_PIN,
-        .quadwp_io_num = -1,
-        .quadhd_io_num = -1,
-    };
-
-    spi_slave_interface_config_t slave_config = {
-        .mode = 0,                              // Polaridad y fase del reloj
-        .spics_io_num = CS_PIN,             // Pin de selección de chip
-        .queue_size = 10,                        // Tamaño de la cola de transacciones
-        .flags = 0,                             // Bandera de configuración adicional
-    };
-
-    ret = spi_slave_initialize(HSPI_HOST, &bus_config, &slave_config, SPI_DMA_CH_AUTO); //SPI_DMA_CH1
-    if (ret != ESP_OK) {
-        printf("Error initializing SPI slave. Code: %d", ret);
-        return;
-    }
-
-    uint8_t rx_buf[BUF_SIZE];
-    esp_err_t size_;
-    int size;
-
-    bzero(rx_buf, sizeof(rx_buf));
-    
-    while (1) {
-
-        printf("While...");
-
-        spi_slave_transaction_t transaction = {
-            .length = BUF_SIZE*8,
-            .rx_buffer = rx_buf,
-            .tx_buffer = NULL,
-        };
-        
-        size_ = spi_slave_transmit(HSPI_HOST, &transaction, portMAX_DELAY);
-        
-        if (ESP_OK != size_) {
-            printf("Error receiving data. Code: %d", size_);            
-        }
-        else{
-            
-            printf("Received: %s\n", rx_buf);
-            bzero(rx_buf, sizeof(rx_buf));
-        }
-        
-        printf("\n");
-        delay(2000);
-    }
-}
-
-
-~~~
 
 
 4. La configuración del hardware que usted debe realizar es la siguiente:
@@ -240,12 +90,7 @@ Puede usar cualquier programa para leer el puerto serial del computador. Sin emb
 
 ## **Práctica**
 
-Implemente en un prototipo una comunicación SPI entre 2 ESP32 a saber: un master (ESP32) y un slave (ESP32). 
 
-
-El prototipo debe realizar lo siguiente:
-
-1. El master debe recibir comandos por UART, usando el driver creado en la práctica "2.2.2. Practica 2 Interrupt driver", pero en lugar de activar los motores debe enviar comandos a través del bus SPI a la ESP32 slave, donde estarán los motores (LEDS). 
 
 
 # Referencias
