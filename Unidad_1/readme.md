@@ -33,7 +33,7 @@ Las normas que estandarizan el diseño, fabricación, montaje y mantenimiento de
 
 ### Clases de rendimiento en circuitos impresos
 
-Según la norma IPC 221A, existen tres clases de productos finales según su nivel de sofisticación, requerimientos de de rendimiento funcional y frecuencia de inspección y pruebas. Estas clases son:
+Según la norma IPC 2221A, existen tres clases de productos finales según su nivel de sofisticación, requerimientos de de rendimiento funcional y frecuencia de inspección y pruebas. Estas clases son:
 
 1. **Clase 1. Productos electrónicos generales**. Incluye productos de consumo, algunas computadoras y periféricos de computadora, así como hardware militar general. Se aceptan imperfecciones del tipo estético. 
 
