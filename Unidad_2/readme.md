@@ -672,7 +672,7 @@ Como ESP-NOW no tiene conexión, el encabezado MAC es un poco diferente al de la
 
 ESP-NOW utiliza el método CCMP, que se describe en la norma IEEE 802.11-2012, para proteger el marco de acción específico del proveedor. El dispositivo Wi-Fi mantiene una clave maestra principal (PMK) y varias claves maestras locales (LMK). Las longitudes de PMK y LMk son de 16 bytes *[[13]](#referencias)*.
 
-PMK se utiliza para cifrar LMK con el algoritmo AES-128. Si no se establece PMK, se utilizará un PMK predeterminado *[[13]](#referencias)*.
+PMK se utiliza para cifrar LMK con el algoritmo AES-128. Si no se establece PMK, se utilizará un PMK predeterminado *[[13]](#referencias)*. Para configurar PMK llame a la función `esp_now_set_pmk()`.
 
 LMK del dispositivo emparejado se utiliza para cifrar el marco de acción específico del proveedor con el método CCMP. El número máximo de LMK diferentes es seis. Si no se establece el LMK del dispositivo emparejado, el marco de acción específico del proveedor no se cifrará *[[13]](#referencias)*.
 
