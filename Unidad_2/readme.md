@@ -24,7 +24,7 @@ Típicamente un *device driver* se encarga de las tareas de: inicialización, ac
 
 A continuación, se presenta un diagrama de componentes y de capas:
 
-<img src="imagenes/2_1_device_driver_component_diagram.png" width="500">
+<img src="imagenes/2_1_device_driver_component_diagram.png" width="600">
 
 <img src="imagenes/2_1_device_drivers_layers.png" width="500">
 
