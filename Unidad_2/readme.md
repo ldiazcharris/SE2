@@ -162,7 +162,7 @@ En este protocolo de comunicación la capa física está compuesta de dos pines 
 
 Además, para que exista compatibilidad eléctrica entre los dispositivos, se debe conectar el pin de GND. Por otro lado, debido a la característica particular de los pines SDA y SCL, tienen la configuración eléctrica de *open drain* u *open collector*, se deben conectar resistores del tipo *pull-up* en las líneas SDA y SCL. Este resitor puede estar en el rango de entre 2 kΩ hasta 10 kΩ. 
 
-Cada dispositivo que se requiera conectar a un bus $I^2C$, debe haces en las líneas de transmisión SDA y SCL. Todos en la misma conexión. 
+Cada dispositivo que se requiera conectar a un bus $I^2C$, debe hacerlo en las líneas de transmisión SDA y SCL. Todos en la misma conexión. 
 
 <img src="imagenes/2_3_1_I2C_Colector_abierto.png" width="500">
 
