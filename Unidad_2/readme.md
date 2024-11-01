@@ -5,7 +5,7 @@
 - [2.1. Creación de bibliotecas o drivers para sensores.](#21-creación-de-bibliotecas-o-drivers-para-sensores)
 - [2.2. Práctica de creación de bibliotecas o drivers.](#22-práctica-de-creación-de-bibliotecas-o-drivers)
 - [2.3. Protocolos de comunicación digital ($I^2C$ y SPI).](#23-protocolos-de-comunicación-digital-i2c-y-spi)
-	- [2.3.1. Protocolo $I^2C$.](#231-protocolo-i2c)
+	- [2.3.1. Protocolo $I^2C$ .](#231-protocolo-i2c)
 	- [2.3.2. Protocolo SPI.](#232-protocolo-spi)
 - [2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi).](#24-protocolos-de-comunicación-inalámbrica-bluetooth-y-wifi)
 - [2.5. Programación de firmware del proyecto de aula.](#25-prototipo-funcional-del-proyecto-de-aula)
@@ -520,51 +520,7 @@ esp_ble_gap_register_callback();
 esp_ble_gattc_register_callback();
 ~~~
 
-### Cliente GATT 
-
-Abra en una nueva pestaña el siguiente enlace: [Ejemplo GATT Client](Unidad_2/GATT_BLE/GATT_Client_Example_ESP32).
-
-En este ejemplo, la función principal también inicializa el controlador BT creando primero una estructura de configuración del controlador BT llamada esp_bt_controller_config_t con la configuración por defecto generada por la macro BT_CONTROLLER_INIT_CONFIG_DEFAULT(). El controlador BT implementa la Host Controller Interface (HCI) en el lado del controlador, la Link Layer (LL) y la Physical Layer (PHY). El controlador BT es invisible para las aplicaciones de usuario y se ocupa de las capas inferiores de la pila BLE. La configuración del controlador incluye establecer el tamaño de la pila del controlador BT, la prioridad y la tasa de baudios HCI. Con la configuración creada, el controlador BT se inicializa y habilita con la función esp_bt_controller_init():
-
-Modos Bluetooth soportados: 
-
-There are four Bluetooth modes supported:
-
-`ESP_BT_MODE_IDLE`: Bluetooth not running
-`ESP_BT_MODE_BLE`: BLE mode
-`ESP_BT_MODE_CLASSIC_BT`: BT Classic mode
-`ESP_BT_MODE_BTDM`: Dual mode (BLE + BT Classic)
-
-MTU: Maximum transmission unit
-
-Por defecto, el tamaño de MTU en ESP32 Bluetooth LE es 23 bytes, y puede ser configurado hasta 517 bytes.
-
-### Application Profiles
-
-Los Perfiles de Aplicación son una forma de agrupar funcionalidades que están diseñadas para una o más aplicaciones del servidor. Por ejemplo, puede tener un Perfil de Aplicación conectado a los Sensores de Frecuencia Cardíaca, y otro conectado a los Sensores de Temperatura. Cada Perfil de Aplicación crea una interfaz GATT para conectarse a otros dispositivos. Los Perfiles de Aplicación en el código son instancias de la estructura gattc_profile_inst, que se define como:
-
-~~~C
-struct gattc_profile_inst {
-    esp_gattc_cb_t gattc_cb;
-    uint16_t gattc_if;
-    uint16_t app_id;
-    uint16_t conn_id;
-    uint16_t service_start_handle;
-    uint16_t service_end_handle;
-    uint16_t char_handle;
-    esp_bd_addr_t remote_bda;
-};
-~~~
-
-
-gattc_cb: GATT client callback function
-gattc_if: GATT client interface number for this profile
-app_id: Application Profile ID number
-conn_id: Connection ID
-service_start_handle: Service start handle
-service_end_handle: Service end handle
-char_handle: Char handle
-remote_bda: Remote device address connected to this client.
+### [**Práctica 2.4.1. Bluetooth***]()
 
 
 
