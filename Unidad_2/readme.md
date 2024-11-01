@@ -419,7 +419,7 @@ El controlador del protocolo es invisible para las aplicaciones de usuario y se 
 - La prioridad.
 - La velocidad de transmisión HCI.
 
-<img src="imagenes/2_4_1_Bluedroid_ESP32_components.png" width="600">
+<img src="imagenes/2_4_1_Bluedroid_ESP32_components.png" width="700">
 
 ### Bluetooth LE GAP APIs
 
@@ -438,7 +438,7 @@ Hay cuatro roles GAP definidos para un dispositivo Bluetooth LE:
 
 **Estados del GAP**
 
-<img src="imagenes/2_4_1_estados_del_rol_GAP.png" width="600">
+<img src="imagenes/2_4_1_estados_del_rol_GAP.png" width="400">
 
 
 **Procedimiento de broadcast**
