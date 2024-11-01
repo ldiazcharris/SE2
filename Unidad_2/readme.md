@@ -520,7 +520,7 @@ esp_ble_gap_register_callback();
 esp_ble_gattc_register_callback();
 ~~~
 
-### [**Práctica 2.4.1. Bluetooth***]()
+### [**Práctica 2.4.1. Bluetooth***](2_4_1_Practica_Bluetooth.md)
 
 
 
