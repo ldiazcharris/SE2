@@ -42,7 +42,7 @@ Por favor, siga la siguiente metodología.
 	
 		**Nota:** Tenga en cuenta que para que el proyecto funcione, debe configurar el entorno Platformio con ESP-IDF para habilitar el controlador Bluetooth en los archivos de compilación del proyecto. Se debe abrir el archivo `sdkconfig.*` que se crea automáticamente con el proyecto y se encuentra la raiz de los archivos de la carpeta del proyecto. 
 
-		<img src="imagenes/2_4_1_sdkconfig_file.png" width="400">
+		<img src="imagenes/2_4_1_sdkconfig_file.png" width="300">
 
 		En este archivo debe buscar la sección `# Bluetooth` y escribir debajo de ella lo siguiente:
 
