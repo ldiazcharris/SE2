@@ -479,7 +479,7 @@ Para crear una aplicación de Bluetooth con ESP32 se deben seguir los siguientes
 
 2. Configurar el entorno de desarrollo Platformio con ESP-IDF para habilitar el controlador Bluetooth en los archivos de compilación del proyecto. Se debe abrir el archivo `sdkconfig.*` que se crea automáticamente con el proyecto y se encuentra la raiz de los archivos de la carpeta del proyecto. 
 
-<img src="imagenes/2_4_1_sdkconfig_file.png" width="400">
+<img src="imagenes/2_4_1_sdkconfig_file.png" width="300">
 
 En este archivo debe buscar la sección `# Bluetooth` y escribir debajo de ella lo siguiente:
 
