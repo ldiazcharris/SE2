@@ -23,6 +23,7 @@ void esp_now_peer_register(uint8_t * peer_mac_addr);
 
 
 //static uint8_t peer_mac_addr[] = {0x94, 0xb9, 0x7e, 0xfa, 0xc1, 0x20};
+//static uint8_t defect_mac_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
 
 void app_main()

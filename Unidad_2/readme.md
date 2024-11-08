@@ -585,9 +585,9 @@ En cuanto a las características técnicas del protocolo de comunicación Wi-Fi,
 
 ESP-NOW es un tipo de protocolo de comunicación Wi-Fi sin conexión definido por Espressif. En ESP-NOW, los datos de la aplicación se encapsulan en un marco de acción específico del proveedor y, a continuación, se transmiten de un dispositivo Wi-Fi a otro sin conexión *[[13]](#referencias)*.
 
-CTR con protocolo CBC-MAC (CCMP) se utiliza para proteger el marco de acción para la seguridad. ESP-NOW es ampliamente utilizado en luz inteligente, control remoto, sensores, etc *[[13]](#referencias)*.
+ESP-NOW puede ser utilizado en aplicaciones de domótica, iluminación inteligente, control remoto, redes de sensores, en general IoT, etc *[[13]](#referencias)*. ESP-NOW utiliza el protocolo de seguridad CTR CBC-MAC (CCMP) para proteger el marco de acción. 
 
-ESP-NOW utiliza un marco de acción específico del proveedor para transmitir datos de ESP-NOW. La velocidad de bits predeterminada de ESP-NOW es de 1 Mbps. El formato del marco de acción específico del proveedor es el siguiente *[[13]](#referencias)*:	
+ESP-NOW utiliza un marco de acción específico del proveedor para transmitir datos. La velocidad de bits predeterminada de es de 1 Mbps. El formato del marco de acción específico del proveedor es el siguiente *[[13]](#referencias)*:	
 
 ~~~
 ------------------------------------------------------------------------------------------------------------
