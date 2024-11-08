@@ -8,6 +8,8 @@
 	- [2.3.1. Protocolo](#231-protocolo-i2c) $I^2C$.
 	- [2.3.2. Protocolo SPI.](#232-protocolo-spi)
 - [2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi).](#24-protocolos-de-comunicación-inalámbrica-bluetooth-y-wifi)
+	- [Bluetooth](#241-bluetooth)
+	- [WiFi](#242-wifi)
 - [2.5. Programación de firmware del proyecto de aula.](#25-prototipo-funcional-del-proyecto-de-aula)
 - [2.6. Programación de firmware del proyecto de aula.](#26-programación-de-firmware-del-proyecto-de-aula)
 
