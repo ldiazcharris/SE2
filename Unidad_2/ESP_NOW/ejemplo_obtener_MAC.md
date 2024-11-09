@@ -108,7 +108,7 @@ void esp_now_send_cb(const uint8_t *mac_addr, esp_now_send_status_t status)
 
 1. Reinicie las placas sin desconectar el puerto serie. Luego, seguirá la secuencia de reinicio y al final le mostrará la dirección MAC del dispositivo, así:
 
-<img source = "/Unidad_2/ESP_NOW/resultado_ejemplo_esp_now.png" width=300>
+	<img src="/Unidad_2/ESP_NOW/resultado_ejemplo_esp_now.png" width=300>
 
 1. Para poder utilizar esta dirección en el probrama de C, debe guardarla en un array de la siguiente forma `mac_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff}`. Reemplace los valores de la dirección MAC en el array. Según el presente ejemplo, quedaría de la siguiente manera: `mac_addr[] = {0x94, 0xb9, 0x7e, 0xfa, 0xc1, 0x20}`. 
 
