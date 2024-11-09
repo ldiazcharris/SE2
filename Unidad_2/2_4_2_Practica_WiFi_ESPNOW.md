@@ -121,7 +121,7 @@ Desarrolle un sistema domótico que permita:
 
 1. En el lado del *Servidor*, debe programar tres tareas:
 
-	- Tarea 1: esta se encarga de monitorear la cantidad de luz que incide sobre la ventana a través de la lectura de una LDR, si hay luz entonces debe abrir la persiana si no hay luz, entonces debe cerrarla. Además, esta terea debe transmitir por ESP-NOW al cliente el estado de la persiana, así como la intensidad de luz. 
+	- Tarea 1: esta se encarga de monitorear la cantidad de luz que incide sobre la ventana a través de la lectura de una LDR; si hay luz, entonces debe abrir la persiana, si no hay luz, entonces debe cerrarla. Además, esta terea debe transmitir por ESP-NOW al cliente el estado de la persiana, así como la intensidad de luz. 
 	
 	- Tarea 2: esta se encarga monitorear la temperatura y humedad del recinto. Además, esta terea debe transmitir por ESP-NOW al cliente el estado de las dos variables.
 	
