@@ -7,9 +7,9 @@
 - [2.3. Protocolos de comunicación digital](#23-protocolos-de-comunicación-digital-i2c-y-spi).
 	- [2.3.1. Protocolo](#231-protocolo-i2c) $I^2C$.
 	- [2.3.2. Protocolo SPI.](#232-protocolo-spi)
-- [2.4. Protocolos de comunicación inalámbrica (Bluetooth y WiFi).](#24-protocolos-de-comunicación-inalámbrica-bluetooth-y-wifi)
+- [2.4. Protocolos de comunicación inalámbrica (Bluetooth y Wi-Fi).](#24-protocolos-de-comunicación-inalámbrica-bluetooth-y-wi-fi)
 	- [Bluetooth](#241-bluetooth)
-	- [WiFi](#242-wifi)
+	- [Wi-Fi](#242-wi-fi)
 - [2.5. Programación de firmware del proyecto de aula.](#25-prototipo-funcional-del-proyecto-de-aula)
 - [2.6. Programación de firmware del proyecto de aula.](#26-programación-de-firmware-del-proyecto-de-aula)
 
@@ -342,7 +342,7 @@ Esta es una señal "opcional". La señal Write-Protect (WP) permitirá operacion
 
 
 
-## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y Wifi)
+## 2.4. Protocolos de comunicación inalámbrica (Bluetooth y Wi-Fi)
 
 ### 2.4.1. Bluetooth
 
@@ -526,7 +526,7 @@ esp_ble_gattc_register_callback();
 
 
 
-### 2.4.2. Wifi
+### 2.4.2. Wi-Fi
 
 Wi-Fi, abreviatura de "Wireless Fidelity", es una tecnología de comunicación inalámbrica que permite la conexión de dispositivos a una red local (LAN) sin necesidad de cables físicos.
 
@@ -540,7 +540,7 @@ La estructura básica de una red Wi-Fi consiste en un punto de acceso (access po
 
 En cuanto a las capas OSI, el Wi-Fi implementa las capas física (Capa 1) y de enlace de datos (Capa 2). La capa física se encarga de la transmisión y recepción de las señales de radio, mientras que la capa de enlace de datos se encarga de la segmentación de los datos en tramas, el control de acceso al medio y la detección de errores.
 
-<img src="imagenes/2_4_2_OSI_Model.gif" width="500"> 
+<img src="imagenes/2_4_2_OSI_Model.gif" width="700"> 
 
 *Fuente: [[11]](#referencias)*
 
@@ -566,9 +566,9 @@ En cuanto a las características técnicas del protocolo de comunicación Wi-Fi,
 - **Seguridad:** Incluye protocolos de cifrado como WEP, WPA, y WPA2 para proteger la privacidad y seguridad de la red inalámbrica.
 - **Calidad de servicio (QoS):** Permite priorizar ciertos tipos de tráfico de red para garantizar un rendimiento óptimo para aplicaciones sensibles al retraso, como la voz sobre IP (VoIP) o el streaming de video.
 
-### Wifi en la ESP32
+### Wi-Fi en la ESP32
 
-### Controlador wifi en la ESP32
+### Controlador Wi-Fi en la ESP32
 
 - Soporte para redes Wi-Fi: El controlador Wi-Fi de la ESP32 es compatible con redes Wi-Fi 802.11 b/g/n, lo que significa que puede conectarse a una variedad de redes Wi-Fi domésticas, empresariales y públicas.
 
@@ -658,7 +658,7 @@ No se admite el cifrado de marcos de acción específicos del proveedor de multi
 
 
 
-### WiFi y MQTT
+### Wi-Fi y MQTT
 
 
 
