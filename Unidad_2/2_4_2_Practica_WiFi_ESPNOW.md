@@ -112,20 +112,22 @@ Desarrolle un sistema domótico que permita:
 	1. Monitorear la temperatura y humedad de una habitación.
 	1. Monitorear la cantidad de luz que incide en la ventana de dicha habitación. 
 
-***Considere lo siguiente***
+***Considere lo siguiente:***
 	
 1. Debe utilizar dos ESP32, una fungirá como controlador de la persiana y como unidad de monitoreo de las variables solicitadas anteriormente, y se llamará *Servidor*; y la otra fungirá como un control remoto para el usuario y se llamará *Cliente*. 
 
 1. Como base, debe crear un módulo en un archivo separado con las funciones de ESP-NOW con el objetivo de separarlas de la aplicación que usted va a desarrollar. 
 
 1. En el lado del *Servidor*, debe programar tres tareas:
+
 	- Tarea 1: esta se encarga de monitorear la cantidad de luz que incide sobre la ventana a través de la lectura de una LDR, si hay luz entonces debe abrir la persiana si no hay luz, entonces debe cerrarla. Además, esta terea debe transmitir por ESP-NOW al cliente el estado de la persiana, así como la intensidad de luz. 
 	
 	- Tarea 2: esta se encarga monitorear la temperatura y humedad del recinto. Además, esta terea debe transmitir por ESP-NOW al cliente el estado de las dos variables.
 	
-	- Tarea 3: Si el *Servidor* recibe el comando de "Abrir_Persina" desde el *Cliente*, este la abrirá, si por el contrario recibe "Cerrar_Persina", entonces la cerrará. Esta operación se simulará con el encendido y apagado de un LED. El LED apagado indica el cierre de la persiana y el LED encendido indica la apertura de esta. 
+	- Tarea 3: Si el *Servidor* recibe el comando de "Abrir_Persina" desde el *Cliente*, este la abrirá, si por el contrario, si recibe "Cerrar_Persina", entonces la cerrará. Esta operación se simulará con el encendido y apagado de un LED. El LED apagado indica el cierre de la persiana y el LED encendido indica la apertura de esta. 
 
 1. En el lado del *Cliente*, debe programar dos tareas:
+
 	- Tarea 1: al recibir las variables de humedad, temperatura, intensidad de luz y estado de la persiana, el *Cliente* debe mostrarlos en una pantalla LCD. 
 	
 	- Tarea 2: Monitorear la pulsación de un botón. Si el botón se presiona una vez, se envía el comando "Abrir_Persina" al servidor. Si se presiona dos veces seguidas se envía el comando "Cerrar_Persina". 

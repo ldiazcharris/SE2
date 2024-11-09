@@ -656,6 +656,11 @@ LMK del dispositivo emparejado se utiliza para cifrar el marco de acción espec�
 
 No se admite el cifrado de marcos de acción específicos del proveedor de multidifusión *[[13]](#referencias)*.
 
+### [**Práctica 2.4.2. Wi-Fi: ESP-NOW***](2_4_2_Practica_WiFi_ESPNOW.md)
+
+
+
+
 
 
 ### Wi-Fi y MQTT

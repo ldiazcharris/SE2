@@ -22,16 +22,10 @@ void esp_now_send_cb(const uint8_t *mac_addr, esp_now_send_status_t status);
 void esp_now_peer_register(uint8_t * peer_mac_addr);
 
 
-//static uint8_t peer_mac_addr[] = {0x94, 0xb9, 0x7e, 0xfa, 0xc1, 0x20};
-//static uint8_t defect_mac_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-
-
 void app_main()
 {
     wifi_init_secuence();
     esp_now_init_secuence();
-    //esp_now_peer_register(peer_mac_addr);
-
 }
 
 static void wifi_init_secuence()
@@ -72,14 +66,4 @@ void esp_now_send_cb(const uint8_t *mac_addr, esp_now_send_status_t status)
     {
         ESP_LOGI(TAG, "ESP_NOW_SEND_FAIL");
     }
-}
-
-void esp_now_peer_register(uint8_t * peer_mac_addr)
-{
-    esp_now_peer_info_t esp_peer = {
-        .channel = ESP_NOW_CHH_1,
-        .ifidx = ESP_IF_WIFI_STA,
-    };
-    memcpy(esp_peer.peer_addr, peer_mac_addr, ESP_NOW_ETH_ALEN);
-    esp_now_add_peer(&esp_peer);
 }
