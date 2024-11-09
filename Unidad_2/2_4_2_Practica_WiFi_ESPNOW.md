@@ -108,6 +108,7 @@ Del lado del *Responder* deberá recibir la expresión "Hola Mundo".
 ## **Práctica**
 
 Desarrolle un sistema domótico que permita: 
+
 	1. Controlar de forma remota la apertura/cierre de una persiana. 
 	1. Monitorear la temperatura y humedad de una habitación.
 	1. Monitorear la cantidad de luz que incide en la ventana de dicha habitación. 
