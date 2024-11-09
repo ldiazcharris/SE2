@@ -665,6 +665,94 @@ No se admite el cifrado de marcos de acción específicos del proveedor de multi
 
 ### Wi-Fi y MQTT
 
+***Introducción a MQTT***
+
+MQTT (Message Queuing Telemetry Transport) es un protocolo de mensajería ligero y orientado a la comunicación máquina a máquina (M2M). Fue desarrollado en 1999 por Andy Stanford-Clark de IBM y Arlen Nipper de Cirrus Link Solutions. La motivación inicial detrás de MQTT fue crear un protocolo eficiente y de bajo consumo de ancho de banda para conectar dispositivos remotos con recursos limitados, especialmente en entornos con conexiones de red poco fiables o de alta latencia, como las comunicaciones satelitales en la industria petrolera.
+
+A lo largo de los años, MQTT ha evolucionado para adaptarse a las crecientes demandas del Internet de las Cosas (IoT). En 2013, OASIS (Organization for the Advancement of Structured Information Standards) asumió la estandarización del protocolo, y en 2016 se publicó MQTT 3.1.1 como estándar ISO/IEC 20922.
+
+***Aplicaciones actuales de MQTT***
+
+- Internet de las Cosas (IoT): MQTT es ampliamente utilizado para conectar sensores, actuadores y dispositivos inteligentes en aplicaciones domésticas, industriales y urbanas.
+Automatización industrial: Facilita la comunicación entre máquinas y sistemas SCADA, permitiendo un monitoreo y control eficientes.
+- Aplicaciones móviles: Debido a su bajo consumo de energía y datos, es ideal para aplicaciones que requieren actualización en tiempo real.
+Mensajería y notificaciones: Se utiliza en sistemas de mensajería instantánea y notificaciones push por su eficiencia y baja latencia.
+- Redes desconectadas o intermitentes: En entornos con conectividad limitada, MQTT garantiza la entrega de mensajes cuando la conexión se restablece.
+
+***Características principales de MQTT***
+
+Ligereza y eficiencia: Diseñado para minimizar el consumo de ancho de banda y recursos, ideal para dispositivos con capacidades limitadas.
+Modelo de publicación/suscripción: Permite una comunicación flexible y escalable entre múltiples dispositivos a través de un broker.
+Calidad de Servicio (QoS): Ofrece tres niveles de QoS para garantizar la entrega de mensajes según las necesidades de la aplicación.
+Persistencia de sesión: Soporta sesiones persistentes para gestionar la conexión y los mensajes pendientes.
+Seguridad: Compatible con TLS/SSL para cifrar la comunicación y soporta autenticación de clientes.
+Aspectos técnicos de MQTT
+
+***Arquitectura Cliente-Broker***
+
+MQTT sigue una arquitectura estrella donde múltiples clientes se conectan a un servidor central denominado broker. Los clientes pueden ser dispositivos que publican información (publishers), dispositivos que reciben información (subscribers) o ambos.
+
+***Modelo de Publicación/Suscripción***
+
+Publicación (Publish): Los clientes envían mensajes al broker especificando un tema (topic).
+Suscripción (Subscribe): Los clientes se suscriben a temas específicos para recibir mensajes relacionados.
+
+***Temas (Topics)***
+
+Los temas son cadenas jerárquicas que organizan los mensajes. Por ejemplo: casa/sala/temperatura. Los suscriptores pueden utilizar comodines como + (nivel único) y # (todos los niveles) para suscribirse a múltiples temas.
+
+***Calidad de Servicio (QoS)***
+
+QoS 0 (At most once): El mensaje se entrega como máximo una vez, sin confirmación de recepción.
+QoS 1 (At least once): El mensaje se entrega al menos una vez, pudiendo haber duplicados.
+QoS 2 (Exactly once): El mensaje se entrega exactamente una vez, garantizando la entrega sin duplicados mediante un proceso de handshake.
+
+***Persistencia y Sesiones Duraderas***
+
+Clean Session Flag: Determina si la sesión es persistente. Una sesión persistente almacena suscripciones y mensajes no entregados cuando el cliente está desconectado.
+Mensaje Retenido (Retained Message): El broker almacena el último mensaje publicado en un tema con la bandera de retención activa para nuevos suscriptores.
+
+***Control de Conexión***
+
+Keep Alive Interval: Tiempo máximo permitido entre comunicaciones para mantener la conexión activa. Si no hay actividad, el cliente envía un PINGREQ al broker.
+Last Will and Testament (LWT): Mensaje que el broker publica en caso de una desconexión inesperada del cliente, informando a otros suscriptores.
+
+***Seguridad***
+
+Autenticación: MQTT permite autenticación básica mediante nombre de usuario y contraseña en la fase de conexión.
+Cifrado: Recomendado el uso de TLS/SSL para proteger la comunicación. MQTT sobre TLS utiliza puertos estándar como el 8883.
+Autorización: Control de acceso basado en permisos para publicar o suscribirse a ciertos temas.
+Encabezados y Formato de Mensaje:
+
+Fixed Header: Presente en todos los paquetes, incluye el tipo de mensaje y flags de control.
+Variable Header: Contiene información adicional dependiendo del tipo de mensaje, como identificadores de paquetes.
+Payload: Datos reales del mensaje, puede ser texto o binario.
+Tipos de Mensajes MQTT:
+
+CONNECT: Inicia una conexión entre el cliente y el broker.
+CONNACK: Confirmación de conexión del broker al cliente.
+PUBLISH: Publicación de un mensaje en un tema.
+PUBACK, PUBREC, PUBREL, PUBCOMP: Mensajes de control para garantizar QoS 1 y QoS 2.
+SUBSCRIBE: Solicitud de suscripción a uno o más temas.
+SUBACK: Confirmación de suscripción.
+UNSUBSCRIBE: Solicitud para anular suscripción.
+UNSUBACK: Confirmación de anulación de suscripción.
+PINGREQ: Mensaje de ping desde el cliente para mantener viva la conexión.
+PINGRESP: Respuesta del broker al ping.
+DISCONNECT: Indica que el cliente quiere cerrar la conexión.
+
+
+***Extensiones y Versiones Avanzadas***
+
+MQTT 5.0: Introduce mejoras como códigos de motivo, propiedades para mensajes, sesión compartida y flujos de datos binarios.
+MQTT-SN (Sensor Networks): Variante diseñada para redes de sensores con direcciones limitadas y baja potencia.
+
+***Implementaciones y Librerías***
+
+Existen múltiples brokers MQTT de código abierto como Mosquitto, HiveMQ y EMQX. También hay librerías en diversos lenguajes de programación (Python, Java, C, JavaScript) para implementar clientes MQTT.
+
+
+***MQTT en la ESP32***
 
 
 
