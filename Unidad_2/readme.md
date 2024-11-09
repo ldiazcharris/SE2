@@ -551,6 +551,7 @@ Con Wi-Fi se pueden crear diferentes tipos de redes, como redes domésticas, emp
 En cuanto a las características técnicas del protocolo de comunicación Wi-Fi, algunas de las más importantes incluyen:
 
 - **Velocidad de transmisión:** Varía según el estándar Wi-Fi utilizado:
+
 | Protocolo | Frecuencia | Velocidad de datos máxima   (en teoría) |
 |---|---|---|
 | 802.11ax | 2,4 o 5 GHz | 2,4 Gbps1 |
@@ -626,6 +627,25 @@ Cuerpo: El cuerpo contiene los datos de ESP-NOW.
 
 Como ESP-NOW no tiene conexión, el encabezado MAC es un poco diferente al de las tramas estándar. Los bits FromDS y ToDS del campo FrameControl son 0. El primer campo de dirección se establece en la dirección de destino. El segundo campo de dirección se establece en la dirección de origen. El tercer campo de dirección se establece en dirección de difusión (0xff:0xff:0xff:0xff:0xff:0xff).
 
+### Características de ESP-NOW
+
+1. Comunicación de Baja Potencia: ESP-NOW está diseñado para ser eficiente en términos de consumo de energía, lo que lo hace ideal para aplicaciones que funcionan con baterías y requieren una larga vida útil.
+
+1. Baja Latencia: Ofrece tiempos de respuesta rápidos, ya que los datos se transmiten directamente entre dispositivos sin pasar por un punto de acceso intermedio. Esto es crucial para aplicaciones en tiempo real.
+
+1. Conexiones Peer-to-Peer: Permite la comunicación directa entre dispositivos, soportando tanto conexiones uno a uno como uno a muchos y muchos a muchos. Esto facilita la creación de redes mesh simples.
+
+1. Uso del Espectro 2.4 GHz: Opera en la banda de frecuencia de 2.4 GHz, la misma que utilizan las redes Wi-Fi y Bluetooth, lo que permite su coexistencia con estos protocolos en un mismo dispositivo.
+
+1. Encriptación y Seguridad: Soporta cifrado de datos mediante algoritmos como CCMP y CBC-MAC, proporcionando una capa adicional de seguridad en la transmisión de datos.
+
+1. Compatibilidad con Wi-Fi y Bluetooth: En dispositivos como el ESP32, ESP-NOW puede funcionar simultáneamente con Wi-Fi y Bluetooth.
+
+1. Configuración Sencilla: No requiere una infraestructura de red compleja ni procesos de emparejamiento. Los dispositivos pueden empezar a comunicarse rápidamente mediante la configuración de las direcciones MAC de los peers.
+
+1. Capacidad de Transmisión de Datos Pequeños: Está optimizado para enviar paquetes de datos pequeños (hasta 250 bytes), lo que es adecuado para sensores y dispositivos IoT que transmiten información breve y periódica.
+
+
 ### Seguridad
 
 ESP-NOW utiliza el método CCMP, que se describe en la norma IEEE 802.11-2012, para proteger el marco de acción específico del proveedor. El dispositivo Wi-Fi mantiene una clave maestra principal (PMK) y varias claves maestras locales (LMK). Las longitudes de PMK y LMk son de 16 bytes *[[13]](#referencias)*.
@@ -637,10 +657,10 @@ LMK del dispositivo emparejado se utiliza para cifrar el marco de acción espec�
 No se admite el cifrado de marcos de acción específicos del proveedor de multidifusión *[[13]](#referencias)*.
 
 
-## 2.5. Prototipo funcional del proyecto de aula
+
+### WiFi y MQTT
 
 
-## 2.6. Programación de firmware del proyecto de aula
 
 
 
